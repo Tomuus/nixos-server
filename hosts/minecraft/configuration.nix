@@ -6,5 +6,5 @@
     ./server.nix
   ];
 
-  networking.hostName = "minecraft";
+  networking.hostName = "Minecraft";
 }
