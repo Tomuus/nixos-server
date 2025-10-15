@@ -8,5 +8,8 @@
     isNormalUser = true;
     shell = pkgs.bash;
     extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keyFiles = [
+      ./sshKeys.pub
+    ];
   };
 }
