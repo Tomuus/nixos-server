@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix 
     ./server.nix
-    ./../../common/default.nix
+    ./cloudflared.nix
   ];
 
   networking.hostName = "Forgejo";
