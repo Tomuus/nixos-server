@@ -22,6 +22,14 @@
          ./common/default.nix
         ];
       };
+      Forgejo = nixpkgs.lib.nixosSystem {
+        system = system;
+        specialArgs = { inherit inputs unstbl; };
+        modules = [
+          ./hosts/forgejo/configuration.nix 
+          ./common/default.nix
+        ];
+      };
     };
   };
 }
