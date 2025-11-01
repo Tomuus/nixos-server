@@ -11,8 +11,8 @@
         DISABLE_REGISTRATION = true;
         ENABLE_CAPTCHA = true;
         APP_NAME = "Coding goes brrrrrr";
-      }
-    }
+      };
+    };
   };
 
   networking.firewall.allowedTCPPorts = [ 22 3000 ];
