@@ -2,9 +2,13 @@
   description = "Nixos flake for my servers";
 
   inputs = {
+
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
+
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
   };
   outputs = { self, nixpkgs, nixpkgs-unstable, ... } @ inputs:
   let 
