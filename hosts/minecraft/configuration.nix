@@ -1,9 +1,9 @@
-{ ... }:
+{ mods, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix 
-    ./server.nix
+    "${mods}/minecraft.nix"
   ];
 
   networking.hostName = "Minecraft";

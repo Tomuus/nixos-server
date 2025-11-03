@@ -11,23 +11,24 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     unstbl = nixpkgs-unstable.legacyPackages.${system};
+    mods = ./modules; #same as in Tomuus/nixfiles (easier imports)
   in 
   {
     nixosConfigurations = {
       Minecraft = nixpkgs.lib.nixosSystem {
         system = system;
-        specialArgs = { inherit inputs unstbl; };
+        specialArgs = { inherit inputs unstbl mods; };
         modules = [
          ./hosts/minecraft/configuration.nix
-         ./common/default.nix
+         ./common
         ];
       };
       Forgejo = nixpkgs.lib.nixosSystem {
         system = system;
-        specialArgs = { inherit inputs unstbl; };
+        specialArgs = { inherit inputs unstbl mods; };
         modules = [
           ./hosts/forgejo/configuration.nix 
-          ./common/default.nix
+          ./common
         ];
       };
     };
