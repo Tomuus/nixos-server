@@ -7,7 +7,7 @@
     description = "System Administrator";
     isNormalUser = true;
     shell = pkgs.bash;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel", "docker" ];
     openssh.authorizedKeys.keyFiles = [
       ./sshKeys.pub
     ];

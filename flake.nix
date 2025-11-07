@@ -35,6 +35,14 @@
           ./common
         ];
       };
+      Serwer = nixpkgs.lib.nixosSystem {
+        system = system;
+        specialArgs = { inherit inputs unstbl mods; };
+        modules = [
+          ./hosts/serwer/configuration.nix 
+          ./common
+        ];
+      }
     };
   };
 }
