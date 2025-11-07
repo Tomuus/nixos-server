@@ -42,7 +42,7 @@
           ./hosts/serwer/configuration.nix 
           ./common
         ];
-      }
+      };
     };
   };
 }
