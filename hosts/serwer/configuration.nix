@@ -6,6 +6,7 @@
     "${mods}/minecraft.nix"
     "${mods}/forgejo.nix"
     "${mods}/smb"
+    "${mods}/jellyfin.nix"
   ];
 
   virtualisation.docker.enable = true;
