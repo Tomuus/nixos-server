@@ -9,7 +9,12 @@
       isNormalUser = true; #not sure if this is the right choice but system users are more like for services or smth
       shell = "/run/current-system/sw/bin/nologin";
       createHome = false;
+      extraGroups = [  ];
     };
+  };
+
+  users.groups = {
+    #groupname = {}; #creating groups is simple af
   };
 }
 
@@ -18,12 +23,12 @@
 #user = {
 #    isNormalUser = true; 
 #    shell = "/run/current-system/sw/bin/nologin";
-#    home = null;
 #    createHome = false;
+#    extraGroups = [  ]; #add groups here
 #  };
 #};
 #
-#!!!remember to add him to smb
+#!!!REMEMBER TO ADD YOUR USER TO SMB!!!
 #smbpasswd -a user
 #
 #''

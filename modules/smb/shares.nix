@@ -1,3 +1,5 @@
+#!!!REMEMBER TO CHOWN THE SHARE DIRECTORY!!!
+
 { ... }:
 
 {
@@ -18,3 +20,4 @@
     };
   };
 }
+
