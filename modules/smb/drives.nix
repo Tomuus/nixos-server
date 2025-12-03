@@ -6,13 +6,13 @@
 
   boot.zfs.extraPools = [ "jedentb" "piectb" ];
   
-  fileSystems."/shares/jedentb" = {
-    device = "jedentb";
-    fsType = "zfs";
-  };
-
-  fileSystems."/shares/piectb" = {
-    device = "piectb";
-    fsType = "zfs";
-  };
+#  fileSystems."/shares/jedentb" = {
+#    device = "jedentb";
+#    fsType = "zfs";
+#  };
+#
+#  fileSystems."/shares/piectb" = {
+#    device = "piectb";
+#    fsType = "zfs";
+#  };
 }
