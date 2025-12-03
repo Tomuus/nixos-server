@@ -2,5 +2,5 @@
 
 {
   boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.enabled = true;
+  networking.hostId = "a1f9c2e3";
 }

@@ -5,7 +5,7 @@
     ./hardware-configuration.nix 
 #    "${mods}/minecraft.nix"
 #    "${mods}/forgejo.nix"
-#    "${mods}/smb"
+    "${mods}/smb"
 #    "${mods}/jellyfin.nix"
   ];
 
