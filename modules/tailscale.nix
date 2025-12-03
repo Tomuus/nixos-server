@@ -7,7 +7,7 @@
     useRoutingFeatures = "both";
 
     extraSetFlags = [
-      "--advertise-exit-node"
+#      "--advertise-exit-node"
     ];   
   };
 
