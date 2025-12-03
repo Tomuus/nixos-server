@@ -11,10 +11,32 @@
       createHome = false;
       extraGroups = [  ];
     };
+
+    miki = {
+      isNormalUser = true; #not sure if this is the right choice but system users are more like for services or smth
+      shell = "/run/current-system/sw/bin/nologin";
+      createHome = false;
+      extraGroups = [ "pienc" "jedn" ];
+    };
+    tomus = {
+      isNormalUser = true; #not sure if this is the right choice but system users are more like for services or smth
+      shell = "/run/current-system/sw/bin/nologin";
+      createHome = false;
+      extraGroups = [ "pienc" "jedn" ];
+    };
+
+    smb = {
+      isNormalUser = true; #not sure if this is the right choice but system users are more like for services or smth
+      shell = "/run/current-system/sw/bin/nologin";
+      createHome = false;
+      extraGroups = [ "samba" "pienc" "jedn" ];
+    };
   };
 
   users.groups = {
-    #groupname = {}; #creating groups is simple af
+    pienc = {}; #creating groups is simple af
+    jedn = {};
+    samba = {};
   };
 }
 
