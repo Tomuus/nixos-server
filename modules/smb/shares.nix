@@ -4,8 +4,8 @@
 
 {
   services.samba.settings = {
-    "jedentb" = {
-      "path" = "/shares/jedentb";
+    "megaraid" = {
+      "path" = "/shares/megaraid";
       "browseable" = "yes";
       "read only" = "yes"; #The write permission will be set separately
       "guest ok" = "no";

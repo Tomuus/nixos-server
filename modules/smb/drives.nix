@@ -4,7 +4,7 @@
   boot.supportedFilesystems = [ "zfs" ];
   networking.hostId = "a1f9c2e3";
 
-  boot.zfs.extraPools = [ "piectb" ];
+  boot.zfs.extraPools = [ "piectb" "megaraid" ];
   
 #  fileSystems."/shares/jedentb" = {
 #    device = "jedentb";
