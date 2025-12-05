@@ -6,7 +6,7 @@
 #    "${mods}/minecraft.nix"
     "${mods}/smb"
     "${mods}/tailscale.nix"
-#    "${mods}/forgejo.nix"
+    "${mods}/forgejo.nix"
 #    "${mods}/jellyfin.nix"
   ];
 
