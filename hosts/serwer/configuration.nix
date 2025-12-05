@@ -4,8 +4,9 @@
   imports = [
     ./hardware-configuration.nix 
     "${mods}/minecraft.nix"
-    "${mods}/smb"
     "${mods}/tailscale.nix"
+    "${mods}/smb"
+    "${mods}/qbittorrent.nix"
     "${mods}/forgejo.nix"
 #    "${mods}/jellyfin.nix"
   ];
