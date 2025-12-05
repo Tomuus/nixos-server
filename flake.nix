@@ -19,20 +19,12 @@
   in 
   {
     nixosConfigurations = {
-      Minecraft = nixpkgs.lib.nixosSystem {
+      Laptop = nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit inputs unstbl mods; };
         modules = [
-         ./hosts/minecraft/configuration.nix
+         ./hosts/laptop/configuration.nix
          ./common
-        ];
-      };
-      Forgejo = nixpkgs.lib.nixosSystem {
-        system = system;
-        specialArgs = { inherit inputs unstbl mods; };
-        modules = [
-          ./hosts/forgejo/configuration.nix 
-          ./common
         ];
       };
       Serwer = nixpkgs.lib.nixosSystem {
