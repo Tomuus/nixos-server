@@ -11,10 +11,21 @@
     eula = true;
     
     servers = {
-      test = {
+      duo = {
         enable = true;
-        package = pkgs.fabricServers.fabric-1_21_7;
+        package = pkgs.fabricServers.fabric-1_21_8;
+        serverProperties = {
+          server-port = 25565;
+        };
       };
+      nigland = {
+        enable = true;
+        package = pkgs.fabricServers.fabric-1_21_8;
+        serverProperties = {
+          server-port = 25564;
+        };
+      };
+
     };
   };
 
