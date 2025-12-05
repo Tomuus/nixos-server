@@ -7,6 +7,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.networkmanager.enable = true;
+  
+  users.motdFile = "/etc/motd";
 
   time.timeZone = "Europe/Warsaw";
 
