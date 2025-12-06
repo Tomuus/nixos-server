@@ -29,7 +29,7 @@
       
       demogorgiel = {
         enable = true;
-        package = pkgs.fabricServers.fabric-1_21_10;
+        package = pkgs.fabricServers.fabric-1_21_1;
         serverProperties = {
           server-port = 69420;
         };
