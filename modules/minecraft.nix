@@ -18,6 +18,7 @@
           server-port = 25565;
         };
       };
+
       nigland = {
         enable = true;
         package = pkgs.fabricServers.fabric-1_21_8;
@@ -25,7 +26,14 @@
           server-port = 25564;
         };
       };
-
+      
+      demogorgiel = {
+        enable = true;
+        package = pkgs.fabricServers.fabric-1_21_10;
+        serverProperties = {
+          server-port = 69420;
+        };
+      };
     };
   };
 
