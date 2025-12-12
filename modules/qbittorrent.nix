@@ -18,6 +18,6 @@
 
   };
 
-	users.users.qnittorrent.extraGroups = [ "samba" ];
+	users.users.qbittorrent.extraGroups = [ "samba" ];
   environment.systemPackages = with pkgs; [ qbittorrent ];
 }
