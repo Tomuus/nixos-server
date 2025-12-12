@@ -37,6 +37,8 @@
     };
   };
 
+  networking.firewall.allowedTCPPorts = [ 25565 25564 25563 ];
+
   environment.systemPackages = with pkgs; [
     tmux #needed to access server console
   ];
