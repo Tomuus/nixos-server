@@ -10,7 +10,7 @@
       Preferences = {
        WebUI = {
          Username = "user";
-         Password_PBKDF2 = "12345678";
+#         Password_PBKDF2 = "12345678";
       };
       General.Locale = "en";
       };
