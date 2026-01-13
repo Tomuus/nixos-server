@@ -5,5 +5,8 @@
     git
     htop
 		lm_sensors
+		cowsay
+		fastfetch
+		tree
   ];
 }
