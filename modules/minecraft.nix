@@ -12,10 +12,11 @@
     
     servers = {
       duo = {
-        enable = true;
+        enable = false;
         package = pkgs.fabricServers.fabric-1_21_8;
         serverProperties = {
           server-port = 25565;
+					view-distance=20;
         };
       };
 
@@ -24,7 +25,9 @@
         package = pkgs.fabricServers.fabric-1_21_8;
         serverProperties = {
           server-port = 25564;
+					view-distance=20;
         };
+				jvmOpts = "-Xmx8G -Xms4G";
       };
       
       demomisiopysio = {
@@ -32,7 +35,10 @@
         package = pkgs.fabricServers.fabric-1_21_1;
         serverProperties = {
           server-port = 25563;
+					spawn-protection=0;
+					simulation-distance=10;
         };
+				jvmOpts = "-Xmx8G -Xms4G";
       };
     };
   };
