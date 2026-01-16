@@ -16,7 +16,7 @@
         package = pkgs.fabricServers.fabric-1_21_8;
         serverProperties = {
           server-port = 25565;
-					view-distance=20;
+					view-distance = 20;
         };
       };
 
@@ -25,7 +25,7 @@
         package = pkgs.fabricServers.fabric-1_21_8;
         serverProperties = {
           server-port = 25564;
-					view-distance=20;
+					view-distance = 20;
         };
 				jvmOpts = "-Xmx8G -Xms4G";
       };
@@ -37,6 +37,8 @@
           server-port = 25563;
 					spawn-protection=0;
 					simulation-distance=10;
+					view-distance = 20;
+					motd = "spszedam zdjencia stupek Gorgla 10zl/szt";
         };
 				jvmOpts = "-Xmx8G -Xms4G";
       };
