@@ -38,7 +38,7 @@
 					spawn-protection=0;
 					simulation-distance=10;
 					view-distance = 20;
-					motd = "spszedam zdjencia stupek Gorgla 10zl/szt";
+					motd = "Imagine using Windows fr";
         };
 				jvmOpts = "-Xmx8G -Xms4G";
       };
