@@ -6,5 +6,6 @@
     ./admin.nix
     ./services.nix
     ./packages.nix
+		./motd.nix
   ];
 }
