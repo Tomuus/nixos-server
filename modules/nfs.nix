@@ -3,9 +3,9 @@
 {
 	services.nfs.server.enable = true;
 	services.nfs.server.exports = ''
-		/shares            100.109.61.97 (rw,fsid=0,no_subtree_check)
-		/shares/piectb     100.109.61.97 (rw,nohide,insecure,no_subtree_check)
-		/shares/megaraid   100.109.61.97 (rw,nohide,insecure,no_subtree_check)
+		/shares            100.109.61.97(rw,fsid=0,no_subtree_check)
+		/shares/piectb     100.109.61.97(rw,nohide,insecure,no_subtree_check)
+		/shares/megaraid   100.109.61.97(rw,nohide,insecure,no_subtree_check)
 		'';
 
 	#Copied straight out of nixos wiki
