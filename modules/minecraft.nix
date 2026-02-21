@@ -42,6 +42,15 @@
         };
 				jvmOpts = "-Xmx8G -Xms4G";
       };
+			cokolwiek = {
+        enable = true;
+        package = pkgs.fabricServers.fabric-1_21_11;
+        serverProperties = {
+          server-port = 25560;
+					view-distance = 20;
+        };
+				jvmOpts = "-Xmx8G -Xms4G";
+      };
     };
   };
 
