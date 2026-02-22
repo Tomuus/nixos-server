@@ -21,7 +21,7 @@
       };
 
       nigland = {
-        enable = true;
+        enable = false;
         package = pkgs.fabricServers.fabric-1_21_8;
         serverProperties = {
           server-port = 25564;
