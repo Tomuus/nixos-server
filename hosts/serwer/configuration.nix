@@ -8,6 +8,7 @@
     "${mods}/smb"
     "${mods}/qbittorrent.nix"
     "${mods}/forgejo.nix"
+    "${mods}/nextcloud.nix"
     #"${mods}/nfs.nix"
 #    "${mods}/jellyfin.nix"
   ];

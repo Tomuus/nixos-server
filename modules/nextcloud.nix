@@ -5,6 +5,7 @@
   services.nextcloud = {
     enable = true;
     hostName = "100.97.47.41";
+		package = pkgs.nextcloud33;
     
 		datadir = "/shares/megaraid";
 
@@ -25,8 +26,10 @@
 		requires = [ "mnt-shares-piectb.mount" "mnt-shares-megaraid.mount" ];
 	};
 
-	systemd.services.nextcloud-setup.serviceConfig.User = "smb";
+	users.users.nextcloud.extraGroups = [ "samba" ];
+
+ /*	systemd.services.nextcloud-setup.serviceConfig.User = "smb";
 	systemd.services.nextcloud-setup.serviceConfig.Group = "samba";
 	systemd.services.phpfpm-nextcloud.serviceConfig.User = "smb";
-	systemd.services.phpfpm-nextcloud.serviceConfig.Group = "samba";
+	systemd.services.phpfpm-nextcloud.serviceConfig.Group = "samba"; */
 }
