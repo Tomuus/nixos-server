@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   # Enable Nextcloud
@@ -29,14 +29,6 @@
 	};
 
 	users.users.nextcloud.extraGroups = [ "samba" ];
-
-	systemd.services.phpfpm-nextcloud.serviceConfig.User = lib.mkForce "smb";
-	systemd.services.phpfpm-nextcloud.serviceConfig.Group = lib.mkForce "samba";
-	systemd.services.nextcloud-setup.serviceConfig.User = lib.mkForce "smb";
-	systemd.services.nextcloud-setup.serviceConfig.Group = lib.mkForce "samba";
-	systemd.services.nextcloud-cron.serviceConfig.User = lib.mkForce "smb";
-	systemd.services.nextcloud-cron.serviceConfig.Group = lib.mkForce "samba";
-
 
  /*	systemd.services.nextcloud-setup.serviceConfig.User = "smb";
 	systemd.services.nextcloud-setup.serviceConfig.Group = "samba";
