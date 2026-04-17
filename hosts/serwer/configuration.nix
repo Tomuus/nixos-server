@@ -9,7 +9,7 @@
     "${mods}/qbittorrent.nix"
     "${mods}/forgejo.nix"
     "${mods}/nextcloud.nix"
-    #"${mods}/nfs.nix"
+    "${mods}/cloudflare.nix"
 #    "${mods}/jellyfin.nix"
   ];
 
