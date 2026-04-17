@@ -30,8 +30,5 @@
 
 	users.users.nextcloud.extraGroups = [ "samba" ];
 
- /*	systemd.services.nextcloud-setup.serviceConfig.User = "smb";
-	systemd.services.nextcloud-setup.serviceConfig.Group = "samba";
-	systemd.services.phpfpm-nextcloud.serviceConfig.User = "smb";
-	systemd.services.phpfpm-nextcloud.serviceConfig.Group = "samba"; */
+	systemd.services.phpfpm-nextcloud.serviceConfig.UMask = "0007";
 }
