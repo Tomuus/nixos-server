@@ -18,7 +18,6 @@
 
 		settings = {
 			trusted_domains = [ "nextcloud.tomuus.org" "100.97.47.41" ];
-			skeletondirectory = "";
 		};
     
     database.createLocally = true; 
