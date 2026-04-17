@@ -4,7 +4,7 @@
   # Enable Nextcloud
   services.nextcloud = {
     enable = true;
-    hostName = "100.97.47.41";
+    hostName = "nextcloud.tomuus.org";
 		package = pkgs.nextcloud33;
     
 		datadir = "/shares/megaraid";
@@ -13,7 +13,8 @@
     config = {
       adminpassFile = "/run/secrets/nextcloud-admin-pass";  
       adminuser = "admin";
-      dbtype = "pgsql";  
+      dbtype = "pgsql"; 
+			extraTrustedDomains = [ "100.97.47.41" ];
     };
     
     database.createLocally = true; 
