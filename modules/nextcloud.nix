@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   # Enable Nextcloud
@@ -30,5 +30,11 @@
 
 	users.users.nextcloud.extraGroups = [ "samba" ];
 
-	systemd.services.phpfpm-nextcloud.serviceConfig.UMask = "0007";
+	services.nextcloud.phpOptions = {
+  	"umask" = "0007";
+	};
+
+	systemd.services.phpfpm-nextcloud.serviceConfig.UMask = lib.mkForce "0007";
+	systemd.services.nextcloud-setup.serviceConfig.UMask = "0007";
+	systemd.services.nextcloud-cron.serviceConfig.UMask = "0007";
 }
