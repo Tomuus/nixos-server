@@ -8,6 +8,7 @@
 		package = pkgs.nextcloud33;
     
 		datadir = "/shares/megaraid";
+		home = "/var/lib/nextcloud";
 
     config = {
       adminpassFile = "/run/secrets/nextcloud-admin-pass";  
@@ -22,8 +23,8 @@
   services.postgresql.enable = true;
 
 	systemd.services.nextcloud-setup = {
-		after = [ "mnt-shares-piectb.mount" "mnt-shares-megaraid.mount" ];
-		requires = [ "mnt-shares-piectb.mount" "mnt-shares-megaraid.mount" ];
+		after = [ "shares-piectb.mount" "shares-megaraid.mount" ];
+		requires = [ "shares-megaraid.mount" ];
 	};
 
 	users.users.nextcloud.extraGroups = [ "samba" ];
