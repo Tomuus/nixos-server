@@ -14,8 +14,12 @@
       adminpassFile = "/run/secrets/nextcloud-admin-pass";  
       adminuser = "admin";
       dbtype = "pgsql"; 
-			extraTrustedDomains = [ "100.97.47.41" ];
     };
+
+		settings = {
+			trusted_domains = [ "nextcloud.tomuus.org" "100.97.47.41" ];
+			skeletondirectory = "";
+		};
     
     database.createLocally = true; 
   };
