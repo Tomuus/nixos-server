@@ -31,7 +31,7 @@
       };
       
       demomisiopysio = {
-        enable = true;
+        enable = false;
         package = pkgs.fabricServers.fabric-1_21_1;
         serverProperties = {
           server-port = 25563;
@@ -43,7 +43,7 @@
 				jvmOpts = "-Xmx8G -Xms4G";
       };
 			cokolwiek = {
-        enable = true;
+        enable = false;
         package = pkgs.fabricServers.fabric-1_21_11;
         serverProperties = {
           server-port = 25560;
@@ -51,6 +51,20 @@
         };
 				jvmOpts = "-Xmx8G -Xms4G";
       };
+			wakacyjny = {
+        enable = true;
+        package = pkgs.fabricServers.fabric-26_2;
+        serverProperties = {
+          server-port = 25559;
+					spawn-protection=0;
+					simulation-distance=20;
+					view-distance = 40;
+					difficulty = "hard";
+					motd = "I use nixos btw";
+        };
+				jvmOpts = "-Xmx12G -Xms2G";
+      };
+
     };
   };
 
