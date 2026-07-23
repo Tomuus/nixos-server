@@ -52,10 +52,13 @@
 				jvmOpts = "-Xmx8G -Xms4G";
       };
 			wakacyjny = {
-        enable = true;
-        package = pkgs.fabricServers.fabric-26_2;
-        serverProperties = {
-          server-port = 25559;
+				enable = true;
+#package = pkgs.fabricServers.fabric-26_2;
+				package = pkgs.fabricServers.fabric-26_2.override {
+					jre_headless = pkgs.jdk25_headless;
+				};
+				serverProperties = {
+					server-port = 25559;
 					spawn-protection=0;
 					simulation-distance=20;
 					view-distance = 40;
