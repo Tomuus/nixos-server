@@ -17,5 +17,8 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 22 3000 ];
+  networking.firewall.allowedTCPPorts = [
+    22
+    3000
+  ];
 }

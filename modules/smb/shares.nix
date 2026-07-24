@@ -7,50 +7,50 @@
     "megaraid" = {
       "path" = "/shares/megaraid";
       "browseable" = "yes";
-      "read only" = "yes"; #The write permission will be set separately
+      "read only" = "yes"; # The write permission will be set separately
       "guest ok" = "no";
       "create mask" = "0660";
       "directory mask" = "0770";
 
-      "valid users" = " @jedn @samba "; #the RO access list
-      "write list" = " @jedn @samba "; #the RW access list (for rw user needs to be included in both)
+      "valid users" = " @jedn @samba "; # the RO access list
+      "write list" = " @jedn @samba "; # the RW access list (for rw user needs to be included in both)
 
       "force user" = "smb";
       "force group" = "samba";
     };
 
-/*    "pienctb" = {
-      "path" = "/shares/piectb";
-      "browseable" = "yes";
-      "read only" = "yes"; #The write permission will be set separately
-      "guest ok" = "no";
-      "create mask" = "0660";
-      "directory mask" = "0770";
+    /*
+      "pienctb" = {
+         "path" = "/shares/piectb";
+         "browseable" = "yes";
+         "read only" = "yes"; #The write permission will be set separately
+         "guest ok" = "no";
+         "create mask" = "0660";
+         "directory mask" = "0770";
 
-      "valid users" = " @pienc @samba "; #the RO access list
-      "write list" = " @pienc @samba "; #the RW access list (for rw user needs to be included in both)
+         "valid users" = " @pienc @samba "; #the RO access list
+         "write list" = " @pienc @samba "; #the RW access list (for rw user needs to be included in both)
 
-      "force user" = "smb";
-      "force group" = "samba";
-    }; */
+         "force user" = "smb";
+         "force group" = "samba";
+       };
+    */
 
-		"bigblack" = {
+    "bigblack" = {
       "path" = "/shares/bigblack";
       "browseable" = "yes";
-      "read only" = "yes"; #The write permission will be set separately
+      "read only" = "yes"; # The write permission will be set separately
       "guest ok" = "no";
       "create mask" = "0660";
       "directory mask" = "0770";
 
-			#TODO: Add a custom group for this share
-      "valid users" = " @jedn @samba "; #the RO access list
-      "write list" = " @jedn @samba "; #the RW access list (for rw user needs to be included in both)
+      #TODO: Add a custom group for this share
+      "valid users" = " @jedn @samba "; # the RO access list
+      "write list" = " @jedn @samba "; # the RW access list (for rw user needs to be included in both)
 
       "force user" = "smb";
       "force group" = "samba";
     };
-
 
   };
 }
-

@@ -4,9 +4,9 @@
   environment.systemPackages = with pkgs; [
     git
     htop
-		lm_sensors
-		cowsay
-		fastfetch
-		tree
+    lm_sensors
+    cowsay
+    fastfetch
+    tree
   ];
 }

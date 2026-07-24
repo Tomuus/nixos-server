@@ -7,8 +7,8 @@
     useRoutingFeatures = "both";
 
     extraSetFlags = [
-#      "--advertise-exit-node"
-    ];   
+      #      "--advertise-exit-node"
+    ];
   };
 
   environment.systemPackages = with pkgs; [

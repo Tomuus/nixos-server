@@ -4,20 +4,19 @@
   services.qbittorrent = {
     enable = true;
     openFirewall = true;
-    serverConfig = 
-    {
+    serverConfig = {
       LegalNotice.Accepted = true;
       Preferences = {
-       WebUI = {
-         Username = "user";
-#         Password_PBKDF2 = "12345678";
-      };
-      General.Locale = "en";
+        WebUI = {
+          Username = "user";
+          #         Password_PBKDF2 = "12345678";
+        };
+        General.Locale = "en";
       };
     };
 
   };
 
-	users.users.qbittorrent.extraGroups = [ "samba" ];
+  users.users.qbittorrent.extraGroups = [ "samba" ];
   environment.systemPackages = with pkgs; [ qbittorrent ];
 }
