@@ -19,7 +19,7 @@
       "force group" = "samba";
     };
 
-    "pienctb" = {
+/*    "pienctb" = {
       "path" = "/shares/piectb";
       "browseable" = "yes";
       "read only" = "yes"; #The write permission will be set separately
@@ -32,7 +32,7 @@
 
       "force user" = "smb";
       "force group" = "samba";
-    };
+    }; */
 
   };
 }
