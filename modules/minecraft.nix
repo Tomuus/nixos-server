@@ -58,7 +58,7 @@
 					jre_headless = pkgs.jdk25_headless;
 				};
 				serverProperties = {
-					server-port = 25559;
+					server-port = 25565;
 					spawn-protection=0;
 					simulation-distance=20;
 					view-distance = 40;
