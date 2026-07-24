@@ -34,6 +34,23 @@
       "force group" = "samba";
     }; */
 
+		"bigblack" = {
+      "path" = "/shares/bigblack";
+      "browseable" = "yes";
+      "read only" = "yes"; #The write permission will be set separately
+      "guest ok" = "no";
+      "create mask" = "0660";
+      "directory mask" = "0770";
+
+			#TODO: Add a custom group for this share
+      "valid users" = " @jedn @samba "; #the RO access list
+      "write list" = " @jedn @samba "; #the RW access list (for rw user needs to be included in both)
+
+      "force user" = "smb";
+      "force group" = "samba";
+    };
+
+
   };
 }
 
