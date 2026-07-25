@@ -10,7 +10,7 @@
     "${mods}/forgejo.nix"
     "${mods}/nextcloud.nix"
     "${mods}/cloudflare.nix"
-    #    "${mods}/jellyfin.nix"
+    "${mods}/nfs.nix"
   ];
 
   virtualisation.docker.enable = true;
