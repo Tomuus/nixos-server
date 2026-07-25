@@ -6,6 +6,10 @@
     /shares/bigblack 100.96.47.47(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,fsid=1)
     /shares/megaraid 100.96.47.47(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,fsid=2)
     /shares/piectb 100.96.47.47(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,fsid=3)
+
+    /shares/bigblack 192.168.0.0/24(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,fsid=1)
+    /shares/megaraid 192.168.0.0/24(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,fsid=2)
+    /shares/piectb 192.168.0.0/24(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,fsid=3)
   '';
 
   #Copied straight out of nixos wiki
