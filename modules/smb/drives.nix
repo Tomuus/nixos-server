@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   boot.supportedFilesystems = [ "zfs" ];
@@ -17,6 +17,10 @@
       "nofail"
     ];
   };
+
+  environment.systemPackages = with pkgs; [
+    smartmontools
+  ];
 
   #  fileSystems."/shares/jedentb" = {
   #    device = "jedentb";
