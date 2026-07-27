@@ -8,5 +8,6 @@
     cowsay
     fastfetch
     tree
+    ethtool
   ];
 }
