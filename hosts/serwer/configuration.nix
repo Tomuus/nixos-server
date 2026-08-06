@@ -11,6 +11,7 @@
     "${mods}/nextcloud.nix"
     "${mods}/cloudflare.nix"
     "${mods}/nfs.nix"
+    "${mods}/immich.nix"
   ];
 
   virtualisation.docker.enable = true;
