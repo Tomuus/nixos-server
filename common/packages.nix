@@ -6,7 +6,6 @@
     htop
     lm_sensors
     cowsay
-    nvim
     fastfetch
     tree
     ethtool
