@@ -2,11 +2,15 @@
 
 {
   imports = [
-    ./hardware-configuration.nix 
-#    "${mods}/minecraft.nix"
-#    "${mods}/forgejo.nix"
+    ./hardware-configuration.nix
+    "${mods}/minecraft.nix"
+    "${mods}/tailscale.nix"
     "${mods}/smb"
-#    "${mods}/jellyfin.nix"
+    "${mods}/qbittorrent.nix"
+    "${mods}/forgejo.nix"
+    "${mods}/nextcloud.nix"
+    "${mods}/cloudflare.nix"
+    "${mods}/nfs.nix"
   ];
 
   virtualisation.docker.enable = true;

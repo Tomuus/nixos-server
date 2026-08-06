@@ -31,11 +31,14 @@
       };
     };
   };
-  
+
   services.samba-wsdd = {
     enable = true;
     openFirewall = true;
   };
 
-  environment.systemPackages = with pkgs; [ samba cifs-utils ];
+  environment.systemPackages = with pkgs; [
+    samba
+    cifs-utils
+  ];
 }
