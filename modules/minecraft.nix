@@ -69,7 +69,7 @@
           view-distance = 40;
           difficulty = "hard";
           motd = "I use nixos btw";
-          online-mode = false;
+          #online-mode = false;
           enforce-secure-profile = false;
         };
         jvmOpts = "-Xmx12G -Xms2G";
