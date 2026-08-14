@@ -12,6 +12,7 @@
     "${mods}/cloudflare.nix"
     "${mods}/nfs.nix"
     "${mods}/immich.nix"
+    "${mods}/navidrome.nix"
   ];
 
   virtualisation.docker.enable = true;
