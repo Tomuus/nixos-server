@@ -10,6 +10,7 @@
         default = "http_status:404";
         ingress = {
           "nextcloud.tomuus.org" = "http://localhost:80";
+          "music.tomuus.org" = "http://localhost:4533";
         };
       };
     };
