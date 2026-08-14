@@ -12,6 +12,8 @@
     settings = {
       MusicFolder = "/shares/megaraid/Music";
       Address = "0.0.0.0";
+
+      EnableNowPlaying = false;
     };
   }; 
 }
