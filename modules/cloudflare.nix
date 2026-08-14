@@ -11,6 +11,7 @@
         ingress = {
           "nextcloud.tomuus.org" = "http://localhost:80";
           "music.tomuus.org" = "http://localhost:4533";
+          "immich.tomuus.org" = "http://localhost:2283";
         };
       };
     };
