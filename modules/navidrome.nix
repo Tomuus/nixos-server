@@ -14,6 +14,7 @@
       Address = "0.0.0.0";
 
       EnableNowPlaying = false;
+      AutoImportPlaylists = false;
     };
   }; 
 }
