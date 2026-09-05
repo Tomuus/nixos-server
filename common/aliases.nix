@@ -11,6 +11,7 @@
 
   programs.bash.interactiveShellInit = ''
     o4xp() {
+        export TERM=xterm
         tmux kill-session -t ortho4xp-gui 2>/dev/null
         pkill -f "Xvfb :1" 2>/dev/null
         sleep 1
