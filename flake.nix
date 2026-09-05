@@ -8,6 +8,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    
+    ortho4xp-src = { url = "github:shred86/Ortho4XP"; flake = false; };
 
   };
   outputs =
