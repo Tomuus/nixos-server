@@ -36,6 +36,7 @@
       requests
       pyopengl
       quaternion
+      scikit-fmm
     ]);
     in
     {
