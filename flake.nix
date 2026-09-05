@@ -29,7 +29,7 @@
     build-system = [ pkgs.python3Packages.setuptools ];
       src = pkgs.python3Packages.fetchPypi {
         inherit pname version;
-        sha256 = pkgs.lib.fakeSha256;
+        sha256 = "sha256-OSvzy07uNsDpJxU06T455GzbT34gYrCMs4vQhyBh/2w=";
       };
       propagatedBuildInputs = [ pkgs.python3Packages.numpy ];
       doCheck = false;
