@@ -16,9 +16,8 @@
         pkill -f "Xvfb :1" 2>/dev/null
         sleep 1
 
-        tmux new-session -d -s ortho4xp-gui \
-            'Xvfb :1 -screen 0 1920x1080x24 & sleep 1 && DISPLAY=:1 x11vnc -display :1 -forever -shared -localhost & sleep 1 && cd /var/lib/ortho4xp && DISPLAY=:1 python3 Ortho4XP.py'
-
+      tmux new-session -d -s ortho4xp-gui \
+    'Xvfb :1 -screen 0 1920x1080x24 & sleep 1 && DISPLAY=:1 x11vnc -display :1 -forever -shared -localhost & sleep 1 && cd /var/lib/ortho4xp-bundled && DISPLAY=:1 steam-run ./Ortho4XP'
         echo "ortho4xp-gui session started. Attach with: tmux attach -t ortho4xp-gui"
     }
   '';
