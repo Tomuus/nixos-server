@@ -14,5 +14,6 @@
     spatialite-tools
     unzip
     xorg.xvfb
+    xauth
   ];
 }
