@@ -84,11 +84,28 @@
         "type": "github"
       }
     },
+    "ortho4xp-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777643245,
+        "narHash": "sha256-RVtVc8jfjiNkggY2/XfiZcmqtrNmsGVLIv88llB7m1Y=",
+        "owner": "shred86",
+        "repo": "Ortho4XP",
+        "rev": "3cff870c74bfff49b76d98a20a97dea44032891a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shred86",
+        "repo": "Ortho4XP",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "ortho4xp-src": "ortho4xp-src"
       }
     },
     "systems": {
