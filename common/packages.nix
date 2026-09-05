@@ -9,5 +9,10 @@
     fastfetch
     tree
     ethtool
+    p7zip
+    imagemagick
+    spatialite-tools
+    unzip
+    xorg.xvfb
   ];
 }
