@@ -15,5 +15,6 @@
     unzip
     xorg.xvfb
     xauth
+    x11vnc
   ];
 }
