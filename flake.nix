@@ -22,6 +22,28 @@
       pkgs = nixpkgs.legacyPackages.${system};
       unstbl = nixpkgs-unstable.legacyPackages.${system};
       mods = ./modules; # same as in Tomuus/nixfiles (easier imports)
+        numpyQuaternion = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "numpy-quaternion";
+      version = "2023.0.3";
+      src = pkgs.python3Packages.fetchPypi {
+        inherit pname version;
+        sha256 = pkgs.lib.fakeSha256;
+      };
+      propagatedBuildInputs = [ pkgs.python3Packages.numpy ];
+      doCheck = false;
+    };
+
+    ortho4xpEnv = pkgs.python3.withPackages (ps: with ps; [
+      gdal
+      pillow
+      numpy
+      shapely
+      rtree
+      pyproj
+      requests
+      pyopengl
+      numpyQuaternion
+    ]);
     in
     {
       nixosConfigurations = {
@@ -35,7 +57,7 @@
         };
         Serwer = nixpkgs.lib.nixosSystem {
           system = system;
-          specialArgs = { inherit inputs unstbl mods; };
+          specialArgs = { inherit inputs unstbl mods ortho4xpEnv; };
           modules = [
             ./hosts/serwer/configuration.nix
             ./common
