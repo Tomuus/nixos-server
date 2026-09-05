@@ -15,6 +15,9 @@
 
       EnableNowPlaying = false;
       AutoImportPlaylists = false;
+      LastFM.enabled = true;
     };
+
+    environmentFile = "/etc/navidrome/secrets.txt";
   }; 
 }
