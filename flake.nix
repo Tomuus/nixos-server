@@ -24,9 +24,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
       unstbl = nixpkgs-unstable.legacyPackages.${system};
       mods = ./modules; # same as in Tomuus/nixfiles (easier imports)
-       
-
-    ortho4xpEnv = pkgs.python3.withPackages (ps: with ps; [
+     ortho4xpEnv = pkgs.python3.withPackages (ps: with ps; [
       gdal
       pillow
       numpy
@@ -34,11 +32,10 @@
       rtree
       pyproj
       requests
-      pyopengl
-      quaternion
       scikit-fmm
-    ]);
-    in
+      tkinter
+    ]);      
+      in
     {
       nixosConfigurations = {
         Laptop = nixpkgs.lib.nixosSystem {
