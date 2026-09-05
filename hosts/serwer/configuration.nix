@@ -1,4 +1,4 @@
-{ mods, ... }:
+{ mods, ortho4xpEnv, ... }:
 
 {
   imports = [
@@ -17,4 +17,5 @@
 
   virtualisation.docker.enable = true;
   networking.hostName = "Serwer";
+  environment.systemPackages = [ ortho4xpEnv ];
 }
