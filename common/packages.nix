@@ -8,6 +8,7 @@
     cowsay
     fastfetch
     tree
+    steam-run
     ethtool
     p7zip
     imagemagick
