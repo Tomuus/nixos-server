@@ -25,6 +25,8 @@
         numpyQuaternion = pkgs.python3Packages.buildPythonPackage rec {
       pname = "numpy-quaternion";
       version = "2023.0.3";
+    pyproject = true;
+    build-system = [ pkgs.python3Packages.setuptools ];
       src = pkgs.python3Packages.fetchPypi {
         inherit pname version;
         sha256 = pkgs.lib.fakeSha256;
