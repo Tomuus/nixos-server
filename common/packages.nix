@@ -14,6 +14,7 @@
     imagemagick
     spatialite-tools
     unzip
+    xorg.xrandr
     xorg.xvfb
     xauth
     x11vnc
