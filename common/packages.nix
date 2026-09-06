@@ -7,6 +7,7 @@
     lm_sensors
     cowsay
     fastfetch
+    fluxbox
     tree
     steam-run
     ethtool
