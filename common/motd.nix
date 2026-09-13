@@ -1,5 +1,3 @@
-{ ... }:
-
 {
   environment.etc."tips".source = ./tips;
 

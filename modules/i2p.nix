@@ -1,5 +1,3 @@
-{ ... }:
-
 {
   services.i2pd.enable = true;
 

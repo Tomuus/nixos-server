@@ -1,5 +1,3 @@
-{ ... }:
-
 {
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
