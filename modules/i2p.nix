@@ -5,6 +5,7 @@
     proto.http.enable = true;
     proto.httpProxy.enable = true;
     proto.sam.enable = true;
+    proto.socksProxy.enable = true;
 
     bandwidth = 12500;
   };
