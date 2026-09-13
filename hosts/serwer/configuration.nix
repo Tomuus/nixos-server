@@ -14,6 +14,7 @@
     "${mods}/immich.nix"
     "${mods}/navidrome.nix"
     "${mods}/i2p.nix"
+    "${mods}/ortho.nix"
   ];
 
   virtualisation.docker.enable = true;

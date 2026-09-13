@@ -1,4 +1,4 @@
-{ pkgs, unstbl, ... }:
+{ pkgs,... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -9,15 +9,8 @@
     fastfetch
     fluxbox
     tree
-    steam-run
     ethtool
     p7zip
-    imagemagick
-    spatialite-tools
     unzip
-    xorg.xrandr
-    xorg.xvfb
-    xauth
-    x11vnc
   ];
 }
