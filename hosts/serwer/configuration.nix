@@ -13,6 +13,7 @@
     "${mods}/nfs.nix"
     "${mods}/immich.nix"
     "${mods}/navidrome.nix"
+    "${mods}/i2p.nix"
   ];
 
   virtualisation.docker.enable = true;
