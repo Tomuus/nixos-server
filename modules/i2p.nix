@@ -7,6 +7,6 @@
     proto.sam.enable = true;
     proto.socksProxy.enable = true;
 
-    bandwidth = 12500;
+    bandwidth = 6000;
   };
 }
