@@ -8,5 +8,9 @@
     proto.socksProxy.enable = true;
 
     bandwidth = 6000;
+    port = 21376;
   };
+
+  networking.firewall.allowedUDPPorts = [ 21376 ];
+  networking.firewall.allowedTCPPorts = [ 21376 ];
 }
