@@ -9,7 +9,6 @@
     shell = pkgs.bash;
     extraGroups = [
       "wheel"
-      "docker"
       "samba"
       "minecraft"
     ];
