@@ -45,6 +45,7 @@
       global = {
         "hosts allow" = "192.168.0.0/24 100.64.0.0/10 127.0.0.1";
         "hosts deny" = "ALL";
+        "host msdfs" = "no";
         "vfs objects" = "catia fruit streams_xattr";
         "fruit:metadata" = "stream";
         "fruit:model" = "MacSamba";
