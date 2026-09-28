@@ -46,6 +46,12 @@
         "hosts allow" = "192.168.0.0/24 100.64.0.0/10 127.0.0.1 ::1 fe80::/10 2a02:a311:4094:fd80::/64";
         "hosts deny" = "ALL";
         "host msdfs" = "no";
+        "ea support" = "yes";
+"fruit:aapl" = "yes";
+"durable handles" = "yes";
+"kernel oplocks" = "no";
+"kernel share modes" = "no";
+"posix locking" = "no";
         "vfs objects" = "catia fruit streams_xattr";
         "fruit:metadata" = "stream";
         "fruit:model" = "MacSamba";
