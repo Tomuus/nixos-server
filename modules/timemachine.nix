@@ -52,7 +52,6 @@
 "kernel oplocks" = "no";
 "kernel share modes" = "no";
 "posix locking" = "no";
-"strict sync" = "yes";
         "vfs objects" = "catia fruit streams_xattr";
         "fruit:metadata" = "stream";
         "fruit:model" = "MacSamba";
@@ -66,6 +65,7 @@
         path = "/shares/megaraid/timemachine";
         "valid users" = "tm";
         "read only" = "no";
+         "strict sync" = "yes";
         "fruit:time_machine" = "yes";
         "fruit:time_machine_max_size" = "512G";
       };
