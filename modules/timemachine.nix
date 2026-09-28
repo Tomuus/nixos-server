@@ -62,12 +62,13 @@
         "fruit:delete_empty_adfiles" = "yes";
       };
       timemachine = {
-        path = "/shares/megaraid/timemachine";
-        "valid users" = "tm";
-        "read only" = "no";
-         "strict sync" = "yes";
-        "fruit:time_machine" = "yes";
-        "fruit:time_machine_max_size" = "512G";
+  path = "/shares/megaraid/timemachine";
+  "valid users" = "tm";
+  "read only" = "no";
+  "strict sync" = "yes";
+  "fruit:time machine" = "yes";
+  "fruit:time machine max size" = "512G";
+};
       };
     };
   };
