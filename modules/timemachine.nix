@@ -52,6 +52,7 @@
 "kernel oplocks" = "no";
 "kernel share modes" = "no";
 "posix locking" = "no";
+"strict sync" = "yes";
         "vfs objects" = "catia fruit streams_xattr";
         "fruit:metadata" = "stream";
         "fruit:model" = "MacSamba";
