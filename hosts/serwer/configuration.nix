@@ -12,6 +12,7 @@
     "${mods}/cloudflare.nix"
     "${mods}/nfs.nix"
     "${mods}/timemachine.nix"
+    "${mods}/spl.nix"
     "${mods}/immich.nix"
     "${mods}/navidrome.nix"
     "${mods}/i2p.nix"
