@@ -12,7 +12,9 @@ TOKEN = re.compile(r"[0-9a-f]{64}")
 MAX_BODY, BATCH, WEEK_CAP, MAX_ROWS = 512, 50, 20000, 5000
 BUCKET, REFILL, IP_LIMIT = 60.0, 1.0, 120          # answers burst / per second, requests per IP per minute
 HTML = ("index.html", "text/html; charset=utf-8")
-FILES = {"/": HTML, "/index.html": HTML, "/icon.png": ("icon.png", "image/png")}
+FILES = {"/": HTML, "/index.html": HTML}
+IMG = re.compile(r"/([A-Za-z0-9][A-Za-z0-9._-]{0,60}\.(png|ico|jpg|webp))")   # icons/images only, no subfolders
+TYPES = {"png": "image/png", "ico": "image/x-icon", "jpg": "image/jpeg", "webp": "image/webp"}
 CSP = ("default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self'; "
        "connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'")
 
@@ -116,9 +118,13 @@ class H(BaseHTTPRequestHandler):
         path = self.path.split("?")[0]
         if path == "/api/board":
             return self.json(429, {"error": "limit"}) if limited(self.ip()) else self.json(200, board())
-        if path not in FILES:
+        m = IMG.fullmatch(path)
+        if path in FILES:
+            name, ctype = FILES[path]
+        elif m:
+            name, ctype = m.group(1), TYPES[m.group(2)]
+        else:
             return self.reply(404, b"not found", "text/plain")
-        name, ctype = FILES[path]
         try:
             p = os.path.join(WEB, name)
             st = os.stat(p)
