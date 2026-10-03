@@ -24,4 +24,18 @@
   virtualisation.docker.enable = true;
   networking.hostName = "Serwer";
   environment.systemPackages = [ ortho4xpEnv ];
+  
+  nixpkgs.overlays = [
+    (final: prev: {
+      ps3netsrv = prev.ps3netsrv.overrideAttrs (old: {
+        version = "20260913";
+        src = prev.fetchFromGitHub {
+          owner = "aldostools";
+          repo = "ps3netsrv";
+          rev = "20260913";
+          hash = "sha256-Lsazt178L6oP9AzpKs4MP6aMRFq7HydJ/uVZMYbOWGE=";
+        };
+      });
+    })
+  ];
 }
