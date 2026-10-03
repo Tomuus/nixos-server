@@ -16,6 +16,7 @@
     "${mods}/immich.nix"
     "${mods}/navidrome.nix"
     "${mods}/i2p.nix"
+    "${mods}/nvidia.nix"
     "${mods}/ortho.nix"
   ];
 
