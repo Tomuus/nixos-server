@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./packages.nix
     "${mods}/minecraft.nix"
     "${mods}/tailscale.nix"
     "${mods}/smb"
