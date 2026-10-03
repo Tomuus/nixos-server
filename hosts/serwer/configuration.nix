@@ -29,6 +29,7 @@
     (final: prev: {
       ps3netsrv = prev.ps3netsrv.overrideAttrs (old: {
         version = "20260913";
+        sourceRoot = "source";
         src = prev.fetchFromGitHub {
           owner = "aldostools";
           repo = "ps3netsrv";
