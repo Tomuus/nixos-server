@@ -6,16 +6,19 @@
     hostName = "nextcloud.tomuus.org";
     package = pkgs.nextcloud33;
 
-    datadir = "/shares/megaraid";
+    # No separate datadir: config/ lives under home, which is root-owned all the way up
     home = "/var/lib/nextcloud";
 
-   config = {
-  adminpassFile = "/var/lib/nextcloud-admin-pass";
-  adminuser = "admin";
-  dbtype = "pgsql";
-};
+    config = {
+      adminpassFile = "/var/lib/nextcloud-admin-pass";
+      adminuser = "admin";
+      dbtype = "pgsql";
+    };
 
     settings = {
+      # User files stay on the share
+      datadirectory = lib.mkForce "/shares/megaraid/data";
+
       trusted_domains = [
         "nextcloud.tomuus.org"
         "100.97.47.41"
