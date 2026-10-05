@@ -1,7 +1,6 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  # Enable Nextcloud
   services.nextcloud = {
     enable = true;
     hostName = "nextcloud.tomuus.org";
@@ -10,23 +9,37 @@
     datadir = "/shares/megaraid";
     home = "/var/lib/nextcloud";
 
-    config = {
-      adminpassFile = "/run/secrets/nextcloud-admin-pass";
-      adminuser = "admin";
-      dbtype = "pgsql";
-    };
+   config = {
+  adminpassFile = "/var/lib/nextcloud-admin-pass";
+  adminuser = "admin";
+  dbtype = "pgsql";
+};
 
     settings = {
       trusted_domains = [
         "nextcloud.tomuus.org"
         "100.97.47.41"
       ];
+
+      # Memories: use the Nix-provided exiftool instead of downloading one
+      "memories.exiftool" = "${pkgs.exiftool}/bin/exiftool";
+      "memories.exiftool_no_local" = true;
     };
 
+    extraApps = {
+      inherit (config.services.nextcloud.package.packages.apps)
+        memories
+        previewgenerator;
+    };
+    extraAppsEnable = true;
+
     database.createLocally = true;
+
+    phpOptions = {
+      "umask" = "0007";
+    };
   };
 
-  # Enable PostgreSQL
   services.postgresql.enable = true;
 
   systemd.services.nextcloud-setup = {
@@ -35,15 +48,15 @@
       "shares-megaraid.mount"
     ];
     requires = [ "shares-megaraid.mount" ];
+    serviceConfig.UMask = "0007";
   };
 
   users.users.nextcloud.extraGroups = [ "samba" ];
 
-  services.nextcloud.phpOptions = {
-    "umask" = "0007";
+  systemd.services.phpfpm-nextcloud = {
+    path = [ pkgs.exiftool pkgs.ffmpeg ];
+    serviceConfig.UMask = lib.mkForce "0007";
   };
 
-  systemd.services.phpfpm-nextcloud.serviceConfig.UMask = lib.mkForce "0007";
-  systemd.services.nextcloud-setup.serviceConfig.UMask = "0007";
   systemd.services.nextcloud-cron.serviceConfig.UMask = "0007";
 }
