@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{{ config, lib, pkgs, ... }:
 
 {
   services.nextcloud = {
@@ -6,7 +6,6 @@
     hostName = "nextcloud.tomuus.org";
     package = pkgs.nextcloud33;
 
-    # No separate datadir: config/ lives under home, which is root-owned all the way up
     home = "/var/lib/nextcloud";
 
     config = {
@@ -16,7 +15,6 @@
     };
 
     settings = {
-      # User files stay on the share
       datadirectory = lib.mkForce "/shares/megaraid/data";
 
       trusted_domains = [
@@ -24,15 +22,23 @@
         "100.97.47.41"
       ];
 
-      # Memories: use the Nix-provided exiftool instead of downloading one
       "memories.exiftool" = "${pkgs.exiftool}/bin/exiftool";
       "memories.exiftool_no_local" = true;
+
+      # fixes the red "ffmpeg preview binary not found" warning
+      preview_ffmpeg_path = "${pkgs.ffmpeg}/bin/ffmpeg";
     };
 
     extraApps = {
       inherit (config.services.nextcloud.package.packages.apps)
         memories
         previewgenerator;
+
+      camerarawpreviews = pkgs.fetchNextcloudApp {
+        url = "https://github.com/ariselseng/camerarawpreviews/releases/download/v1.1.4/camerarawpreviews_nextcloud.tar.gz";
+        hash = lib.fakeHash;
+        license = "agpl3Plus";
+      };
     };
     extraAppsEnable = true;
 
@@ -40,6 +46,7 @@
 
     phpOptions = {
       "umask" = "0007";
+      "memory_limit" = lib.mkForce "1G";
     };
   };
 
