@@ -36,7 +36,7 @@
 
       camerarawpreviews = pkgs.fetchNextcloudApp {
         url = "https://github.com/ariselseng/camerarawpreviews/releases/download/v1.1.4/camerarawpreviews_nextcloud.tar.gz";
-        hash = lib.fakeHash;
+        hash = "sha256-Fg+QsjVIxndQMVrMsMcVK7uhv0c5j92qrYjEOhsA7O4=";
         license = "agpl3Plus";
       };
     };
@@ -49,12 +49,10 @@
       "memory_limit" = lib.mkForce "1G";
     };
   };
-
   services.postgresql.enable = true;
 
   systemd.services.nextcloud-setup = {
     after = [
-      "shares-piectb.mount"
       "shares-megaraid.mount"
     ];
     requires = [ "shares-megaraid.mount" ];
