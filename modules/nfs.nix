@@ -1,15 +1,17 @@
 {
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
-    /shares/bigblack 100.0.0.0/8(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,insecure,fsid=1)
+      /shares/bigblack 100.0.0.0/8(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,insecure,fsid=1)
     /shares/megaraid 100.0.0.0/8(rw,sync,no_subtree_check,crossmnt,all_squash,anonuid=1002,anongid=991,insecure,fsid=2)
     /shares/piectb 100.0.0.0/8(rw,sync,no_subtree_check,crossmnt,all_squash,anonuid=1002,anongid=991,insecure,fsid=3)
-    /shares/fast 100.0.0.0/8(rw,sync,no_subtree_check,crossmnt,all_squash,anonuid=1002,anongid=991,insecure,fsid=4)
+    /shares/fast/cache 100.0.0.0/8(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,insecure,fsid=4)
+    /shares/fast/proxies 100.0.0.0/8(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,insecure,fsid=5)
 
     /shares/bigblack 192.168.0.0/24(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,insecure,fsid=1)
     /shares/megaraid 192.168.0.0/24(rw,sync,no_subtree_check,crossmnt,all_squash,anonuid=1002,anongid=991,insecure,fsid=2)
     /shares/piectb 192.168.0.0/24(rw,sync,no_subtree_check,crossmnt,all_squash,anonuid=1002,anongid=991,insecure,fsid=3)
-    /shares/fast 192.168.0.0/24(rw,sync,no_subtree_check,crossmnt,all_squash,anonuid=1002,anongid=991,insecure,fsid=4)
+    /shares/fast/cache 192.168.0.0/24(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,insecure,fsid=4)
+    /shares/fast/proxies 192.168.0.0/24(rw,sync,no_subtree_check,all_squash,anonuid=1002,anongid=991,insecure,fsid=5)
   '';
 
   # Copied straight out of nixos wiki
