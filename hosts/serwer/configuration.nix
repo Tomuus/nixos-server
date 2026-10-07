@@ -12,6 +12,7 @@
     "${mods}/nextcloud.nix"
     "${mods}/cloudflare.nix"
     "${mods}/nfs.nix"
+    "${mods}/resolve-server.nix"
     "${mods}/timemachine.nix"
     "${mods}/spl.nix"
     "${mods}/immich.nix"

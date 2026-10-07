@@ -7,6 +7,7 @@
   boot.zfs.extraPools = [
     # "piectb"
     "megaraid"
+    "fast"
   ];
 
   fileSystems."/shares/bigblack" = {
