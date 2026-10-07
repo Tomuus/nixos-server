@@ -17,10 +17,8 @@
         [ -e "$o" ] && continue
         echo "==> $f"
         ffmpeg -nostdin -y -i "$f" -map 0:v:0 -map 0:a? -map_metadata 0 \
-          -vf scale=1920:-2 -c:v hevc_nvenc -profile:v main10 -pix_fmt p010le \
-          -c:v hevc_nvenc -profile:v main10 -pix_fmt p010le -tag:v hvc1 \
-          -b:v 10M -c:a aac -b:a 192k -f mov "$o.part" && mv "$o.part" "$o"
-      done
+                     -vf scale=1920:-2 -c:v hevc_nvenc -profile:v main10 -pix_fmt p010le -tag:v hvc1 \
+          -b:v 10M -c:a aac -b:a 192k -f mov "$o.part" && mv "$o.part" "$o"     done
       chown -R 1002:991 "$out" 2>/dev/null || true
     '')
   ];
