@@ -16,7 +16,7 @@
         o="$out/$(basename "''${f%.*}").mov"
         [ -e "$o" ] && continue
         echo "==> $f"
-        ffmpeg -nostdin -y -i "$f" -map 0:v:0 -map 0:a? -map_metadata 0 \
+               nice -n 19 ffmpeg -nostdin -y -hwaccel cuda -i "$f" -map 0:v:0 -map 0:a? -map_metadata 0 \
                      -vf scale=1920:-2 -c:v hevc_nvenc -profile:v main10 -pix_fmt p010le -tag:v hvc1 \
           -b:v 10M -c:a aac -b:a 192k -f mov "$o.part" && mv "$o.part" "$o"    
           done
