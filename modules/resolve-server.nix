@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   virtualisation.oci-containers.backend = "docker";
 
@@ -14,4 +14,30 @@
     after = [ "zfs-mount.service" "tailscaled.service" ];
     requires = [ "zfs-mount.service" ];
   };
+    systemd.services.resolve-db-backup = {
+    serviceConfig.Type = "oneshot";
+    path = [ pkgs.docker pkgs.gzip pkgs.coreutils pkgs.findutils ];
+    script = ''
+      set -eu
+      dir=/shares/megaraid/backups/resolve-db
+      mkdir -p "$dir"
+      docker exec resolve-db pg_dumpall -U postgres | gzip > "$dir/$(date +%F).sql.gz.part"
+      mv "$dir/$(date +%F).sql.gz.part" "$dir/$(date +%F).sql.gz"
+      find "$dir" -name '*.sql.gz' -mtime +30 -delete
+    '';
+  };
+
+  systemd.timers.resolve-db-backup = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "00:00";
+      Persistent = true;
+    };
+  };
+
+  # optional: age out old cache files so the 200G quota never fills
+  systemd.tmpfiles.rules = [
+    "e /shares/fast/cache/pc - - - 30d"
+    "e /shares/fast/cache/mac - - - 30d"
+  ];
 }
