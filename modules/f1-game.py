@@ -447,7 +447,9 @@ class H(BaseHTTPRequestHandler):
         if nfails(self.ip()) >= 20 or (kind == "login" and nfails(name.lower()) >= 8):
             return self.err(429, "Too many failed attempts, try again later")
         if kind == "register":
-            if not INVITE or not hmac.compare_digest(INVITE.encode(), str(d.get("invite", "")).encode()):
+            if not INVITE:
+                return self.err(403, "Registration is disabled: the server has no invite code (check /etc/f1-invite).")
+            if not hmac.compare_digest(INVITE.lower().encode(), str(d.get("invite", "")).strip().lower().encode()):
                 limited(self.ip(), fails, 999)
                 return self.err(403, "Wrong invite code")
             if not NAME.fullmatch(name) or not 8 <= len(pw) <= 128:
