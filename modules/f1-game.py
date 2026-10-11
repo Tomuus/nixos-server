@@ -9,7 +9,7 @@ DATA, WEB, PORT = E("F1_DATA", "./data"), E("F1_WEB", "."), int(E("F1_PORT", "80
 SEASON, API = E("F1_SEASON", "2026"), E("F1_API", "https://api.jolpi.ca/ergast/f1").rstrip("/")
 NEWS = E("F1_NEWS", "https://www.motorsport.com/rss/f1/news/")
 ADMINS = {x.strip().lower() for x in E("F1_ADMINS", "").split(",") if x.strip()}
-LOCK_MIN, OPEN_MIN = int(E("F1_LOCK_MIN", "15")), int(E("F1_OPEN_AFTER_QUALI_MIN", "75"))
+LOCK_MIN, OPEN_MIN = int(E("F1_LOCK_MIN", "15")), int(E("F1_OPEN_AFTER_QUALI_MIN", "-1"))
 COOKIE_FLAGS = "HttpOnly; SameSite=Lax; Path=/; Max-Age=7776000" + ("" if E("F1_DEV") else "; Secure")
 try:
     INVITE = open(E("F1_INVITE_FILE") or os.path.join(E("CREDENTIALS_DIRECTORY", ""), "invite")).read().strip()
@@ -71,7 +71,7 @@ def score(bet, result):
 
 
 def window(r):                                      # r = (rnd, name, race, quali)
-    return ((r[3] + OPEN_MIN * 60) if r[3] else 0), r[2] - LOCK_MIN * 60
+    return ((r[3] + OPEN_MIN * 60) if r[3] and OPEN_MIN >= 0 else 0), r[2] - LOCK_MIN * 60
 
 
 def results():

@@ -26,7 +26,8 @@ ol.drv .pos{width:2em;text-align:right;color:var(--mut)}ol.drv .code{font-weight
 ol.drv button{padding:1px 8px}
 table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border-bottom:1px solid var(--bd);padding:4px 6px;text-align:left}td.n,th.n{text-align:right}
 .scroll{overflow-x:auto}
-a{color:var(--ac)}ul.news{padding-left:1.1em;margin:0}ul.news li{margin:.3em 0}
+a{color:var(--ac)}
+dialog{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;max-width:420px}dialog::backdrop{background:#0009}ul.news{padding-left:1.1em;margin:0}ul.news li{margin:.3em 0}
 textarea{width:100%;height:9em;font-family:monospace}
 </style>
 </head>
@@ -86,6 +87,10 @@ function show(k){
 }
 const rsel=(filter,cb)=>{const s=h('select',{onchange:()=>cb(+s.value)});S.rounds.filter(filter).forEach(r=>s.append(h('option',{value:r.rnd,selected:r.rnd===cur},'R'+r.rnd+' '+r.name)));return s};
 
+function popup(title,text){
+  const d=h('dialog',{},h('h3',{},title),h('p',{},text),h('div',{className:'bar'},h('button',{className:'pri',onclick:()=>d.close()},'OK')));
+  d.onclose=()=>d.remove();document.body.append(d);d.showModal();
+}
 function banner(){
   if(!S||!S.rounds)return;const t=now(),r=S.rounds.find(x=>x.race>t),el=$('top');el.innerHTML='';
   if(!r){el.textContent='Season finished – no more races.';return}
@@ -102,10 +107,10 @@ async function betTab(){
   const el=$('t-bet');el.innerHTML='';
   if(!S.rounds.length){el.append(h('div',{className:'card'},'Schedule not loaded yet – try again in a minute.'));return}
   const rd=S.rounds.find(r=>r.rnd===cur);
-  const saved=(await api('GET','bet/'+cur)).order;
+  let saved=(await api('GET','bet/'+cur)).order;
   order=(saved||S.last||S.drivers).filter(c=>S.drivers.includes(c));S.drivers.forEach(c=>{if(!order.includes(c))order.push(c)});
   const stat=h('b'),msg=h('span',{className:'mut'},saved?'Bet saved.':'No bet saved yet.'),list=h('ol',{className:'drv'});
-  const save=h('button',{className:'pri',onclick:async()=>{try{await api('PUT','bet/'+cur,{order});msg.className='ok';msg.textContent='Saved at '+new Date().toLocaleTimeString()}catch(e){msg.className='no';msg.textContent=e.message}}},'Save bet');
+  const save=h('button',{className:'pri',onclick:async()=>{try{const first=!saved;await api('PUT','bet/'+cur,{order});saved=order.slice();save.textContent='Update bet';msg.className='ok';msg.textContent='Saved at '+new Date().toLocaleTimeString();popup((first?'Bet created':'Bet updated')+' – R'+rd.rnd+' '+rd.name,'It will be submitted when betting closes ('+dt(rd.close)+'). You can change it at any time until then.')}catch(e){msg.className='no';msg.textContent=e.message}}},saved?'Update bet':'Make bet');
   const editable=()=>now()>=rd.open&&now()<rd.close;
   let was=null;
   function draw(){
@@ -135,7 +140,7 @@ async function betTab(){
       saved?h('b',{},'Your total: '+info.result.reduce((n,c,i)=>{const g=saved.indexOf(c)+1;return n+(g?Math.max(0,22-Math.abs(g-(i+1))):0)},0)):h('div',{className:'mut'},'You had no bet in this round.')));
   el.append(h('div',{className:'card'},h('div',{className:'bar'},rsel(()=>true,r=>{cur=r;betTab()}),stat),h('div',{className:'bar'},tg('bet','My bet'),tg('official','Official result')),
     h('div',{className:'mut'},'Race: '+dt(rd.race)+' · opens '+dt(rd.open)+' · closes '+dt(rd.close)),
-    h('div',{className:'mut'},'Drag drivers (or use ▲▼) into your predicted finishing order. Last place = 22. Points per driver = 22 − |actual − predicted|.')),
+    h('div',{className:'mut'},'Drag drivers (or use ▲▼) into your predicted finishing order. Last place = 22. Points per driver = 22 − |actual − predicted|. You can set a bet for any upcoming race; it is submitted when betting closes and you can change it until then.')),
     bv==='bet'?h('div',{className:'card'},list,h('div',{className:'bar'},save,msg)):offCard);
   draw();tick();clearInterval(tmr);tmr=setInterval(()=>{if(tab==='bet')tick()},1000);
 }
