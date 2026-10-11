@@ -26,8 +26,14 @@ ol.drv .pos{width:2em;text-align:right;color:var(--mut)}ol.drv .code{font-weight
 ol.drv button{padding:1px 8px}
 table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border-bottom:1px solid var(--bd);padding:4px 6px;text-align:left}td.n,th.n{text-align:right}
 .scroll{overflow-x:auto}
+html{-webkit-text-size-adjust:100%}
+.grid>*{min-width:0}
+.scroll{max-width:100%}
+select,input,button{max-width:100%}
+ul.news{overflow-wrap:anywhere}
+@media(max-width:800px){input,select,textarea{font-size:16px}}
 a{color:var(--ac)}
-dialog{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;max-width:420px}dialog::backdrop{background:#0009}ul.news{padding-left:1.1em;margin:0}ul.news li{margin:.3em 0}
+dialog{max-width:min(420px,calc(100vw - 32px));background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;}dialog::backdrop{background:#0009}ul.news{padding-left:1.1em;margin:0}ul.news li{margin:.3em 0}
 textarea{width:100%;height:9em;font-family:monospace}
 </style>
 </head>
@@ -61,6 +67,7 @@ textarea{width:100%;height:9em;font-family:monospace}
 </div>
 </main>
 <script>
+if(location.protocol==='http:'&&!/^(localhost|127\.0\.0\.1)$/.test(location.hostname))location.replace('https://'+location.host+location.pathname+location.search);
 const NAMES={VER:'Verstappen',ANT:'Antonelli',HAM:'Hamilton',LEC:'Leclerc',HAD:'Hadjar',PIA:'Piastri',LAW:'Lawson',ALO:'Alonso',NOR:'Norris',LIN:'Lindblad',HUL:'Hülkenberg',STR:'Stroll',COL:'Colapinto',BEA:'Bearman',OCO:'Ocon',GAS:'Gasly',SAI:'Sainz',BOR:'Bortoleto',PER:'Pérez',RUS:'Russell',ALB:'Albon',BOT:'Bottas'};
 const $=id=>document.getElementById(id);
 function h(tag,props,...kids){const e=document.createElement(tag);Object.assign(e,props||{});kids.flat().forEach(k=>e.append(k instanceof Node?k:document.createTextNode(k)));return e}
@@ -97,11 +104,11 @@ function popup(title,text){
 function banner(){
   if(!S||!S.rounds)return;const t=now(),r=S.rounds.find(x=>x.race>t),el=$('top');el.innerHTML='';
   if(!r){el.textContent='Season finished – no more races.';return}
-  const sp=(l,v)=>h('span',{style:'margin-right:18px;white-space:nowrap'},l+': ',h('b',{},v));
-  el.append(h('b',{},'Next: R'+r.rnd+' '+r.name),h('br'),
+  const sp=(l,v)=>h('span',{style:'white-space:nowrap'},l+': ',h('b',{},v));
+  el.append(h('b',{},'Next: R'+r.rnd+' '+r.name),h('div',{className:'bar'},
     sp('Betting',t<r.open?'opens in '+fmt(r.open-t):t<r.close?'open, closes in '+fmt(r.close-t):'closed'),
     sp('Qualifying',r.quali?(t<r.quali?'in '+fmt(r.quali-t):'done'):'time unknown'),
-    sp('Race',t<r.race?'in '+fmt(r.race-t):'started'));
+    sp('Race',t<r.race?'in '+fmt(r.race-t):'started')));
 }
 setInterval(()=>{if(S&&S.user)banner()},1000);
 
@@ -210,7 +217,7 @@ setInterval(()=>{if(S&&S.user)side()},300000);
 
 async function auth(kind){
   const m=$('amsg');m.className='mut';m.textContent='Please wait…';
-  try{await api('POST',kind,{name:$('an').value.trim(),password:$('ap').value,invite:$('ai').value.trim()});m.textContent='';await load()}
+  try{await api('POST',kind,{name:$('an').value.trim(),password:$('ap').value,invite:$('ai').value.trim()});m.textContent='';await load();if(!S.user){m.className='no';m.textContent='The server accepted the login, but this browser did not keep the session cookie. Open the site with https:// and make sure cookies are not blocked (iPhone: Settings > Apps > Safari > Block All Cookies = off).'}}
   catch(e){m.className='no';m.textContent=e instanceof TypeError?'Cannot reach the server ('+e.message+').':e.message}
 }
 $('auth').addEventListener('submit',e=>{e.preventDefault();auth('login')});
