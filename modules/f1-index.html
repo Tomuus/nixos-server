@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark">
+<title>F1 predictions</title>
+<style>
+:root{color-scheme:dark;--bg:#0f1318;--card:#182028;--fg:#e6e9ed;--mut:#8b96a3;--bd:#2b3540;--ac:#5b9dff;--ok:#4ade80;--no:#f87171}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:12px}
+h1{font-size:1.2rem;margin:.2em 0}h3{margin:.2em 0 .5em}
+button,input,select,textarea{font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:6px 12px}
+button{cursor:pointer}button.pri{background:var(--ac);border-color:var(--ac);color:#071018}button:disabled{opacity:.4;cursor:default}
+button.tab.on{border-color:var(--ac);color:var(--ac)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.grid{display:grid;grid-template-columns:1fr 290px;gap:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
+.mut{color:var(--mut);font-size:.9rem}.ok{color:var(--ok)}.no{color:var(--no)}
+ol.drv{list-style:none;margin:0;padding:0}
+ol.drv li{display:flex;gap:8px;align-items:center;border:1px solid var(--bd);border-radius:8px;padding:4px 8px;margin:4px 0;background:var(--bg)}
+ol.drv li.drag{opacity:.4}ol.drv li[draggable=true]{cursor:grab}
+ol.drv .pos{width:2em;text-align:right;color:var(--mut)}ol.drv .code{font-weight:700;width:3em}ol.drv .nm{flex:1;color:var(--mut)}
+ol.drv button{padding:1px 8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border-bottom:1px solid var(--bd);padding:4px 6px;text-align:left}td.n,th.n{text-align:right}
+.scroll{overflow-x:auto}
+a{color:var(--ac)}ul.news{padding-left:1.1em;margin:0}ul.news li{margin:.3em 0}
+textarea{width:100%;height:9em;font-family:monospace}
+</style>
+</head>
+<body>
+<main>
+<h1>F1 predictions <span class="mut" id="who"></span></h1>
+
+<div id="auth" class="card" hidden>
+  <div class="bar"><input id="an" placeholder="Name" autocomplete="username"><input id="ap" type="password" placeholder="Password" autocomplete="current-password"><input id="ai" placeholder="Invite code (register only)"></div>
+  <div class="bar"><button class="pri" id="login">Log in</button><button id="reg">Register</button><span id="amsg" class="no"></span></div>
+</div>
+
+<div id="app" hidden>
+  <div class="bar" id="tabs"></div>
+  <div class="grid">
+    <div>
+      <section id="t-bet"></section>
+      <section id="t-board" hidden></section>
+      <section id="t-round" hidden></section>
+      <section id="t-admin" hidden></section>
+    </div>
+    <aside>
+      <div class="card"><h3>Qualifying <span class="mut" id="qn"></span></h3><div id="quali" class="mut">–</div></div>
+      <div class="card"><h3>Motorsport.com news</h3><ul class="news" id="news"></ul></div>
+    </aside>
+  </div>
+</div>
+</main>
+<script>
+const NAMES={VER:'Verstappen',ANT:'Antonelli',HAM:'Hamilton',LEC:'Leclerc',HAD:'Hadjar',PIA:'Piastri',LAW:'Lawson',ALO:'Alonso',NOR:'Norris',LIN:'Lindblad',HUL:'Hülkenberg',STR:'Stroll',COL:'Colapinto',BEA:'Bearman',OCO:'Ocon',GAS:'Gasly',SAI:'Sainz',BOR:'Bortoleto',PER:'Pérez',RUS:'Russell',ALB:'Albon',BOT:'Bottas'};
+const $=id=>document.getElementById(id);
+function h(tag,props,...kids){const e=document.createElement(tag);Object.assign(e,props||{});kids.flat().forEach(k=>e.append(k instanceof Node?k:document.createTextNode(k)));return e}
+async function api(m,p,b){
+  const r=await fetch('/api/'+p,{method:m,headers:{'X-Req':'1','Content-Type':'application/json'},body:b?JSON.stringify(b):undefined});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('Error '+r.status));return j;
+}
+let S=null,off=0,cur=0,order=[],tab='bet',tmr=null;
+const now=()=>Date.now()/1000+off;
+const fmt=s=>{s=Math.max(0,Math.floor(s));const d=Math.floor(s/86400),hh=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return(d?d+'d ':'')+(d||hh?hh+'h ':'')+m+'m '+(s%60)+'s'};
+const dt=t=>new Date(t*1000).toLocaleString([], {weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+
+async function load(){
+  S=await api('GET','state');off=S.now-Date.now()/1000;
+  $('auth').hidden=!!S.user;$('app').hidden=!S.user;
+  $('who').textContent=S.user?'– '+S.user:'';
+  if(!S.user){$('reg').hidden=!S.invite;$('ai').hidden=!S.invite;return}
+  const t=$('tabs');t.innerHTML='';
+  [['bet','My bet'],['board','Season'],['round','Rounds'],...(S.admin?[['admin','Admin']]:[])].forEach(([k,l])=>t.append(h('button',{className:'tab',id:'tb-'+k,onclick:()=>show(k)},l)));
+  t.append(h('button',{onclick:async()=>{await api('POST','logout');location.reload()}},'Log out'));
+  const up=S.rounds.find(r=>now()<r.close+4*3600)||S.rounds[S.rounds.length-1];
+  cur=up?up.rnd:0;show('bet');side();
+}
+function show(k){
+  tab=k;['bet','board','round','admin'].forEach(n=>{const s=$('t-'+n);if(s)s.hidden=n!==k;const b=$('tb-'+n);if(b)b.classList.toggle('on',n===k)});
+  ({bet:betTab,board:boardTab,round:roundTab,admin:adminTab}[k])();
+}
+const rsel=(filter,cb)=>{const s=h('select',{onchange:()=>cb(+s.value)});S.rounds.filter(filter).forEach(r=>s.append(h('option',{value:r.rnd,selected:r.rnd===cur},'R'+r.rnd+' '+r.name)));return s};
+
+// ---- bet ----
+async function betTab(){
+  const el=$('t-bet');el.innerHTML='';
+  if(!S.rounds.length){el.append(h('div',{className:'card'},'Schedule not loaded yet – try again in a minute.'));return}
+  const rd=S.rounds.find(r=>r.rnd===cur);
+  const saved=(await api('GET','bet/'+cur)).order;
+  order=(saved||S.last||S.drivers).filter(c=>S.drivers.includes(c));S.drivers.forEach(c=>{if(!order.includes(c))order.push(c)});
+  const stat=h('b'),msg=h('span',{className:'mut'},saved?'Bet saved.':'No bet saved yet.'),list=h('ol',{className:'drv'});
+  const save=h('button',{className:'pri',onclick:async()=>{try{await api('PUT','bet/'+cur,{order});msg.className='ok';msg.textContent='Saved at '+new Date().toLocaleTimeString()}catch(e){msg.className='no';msg.textContent=e.message}}},'Save bet');
+  const editable=()=>now()>=rd.open&&now()<rd.close;
+  let was=null;
+  function draw(){
+    const ed=editable();list.innerHTML='';save.disabled=!ed;
+    order.forEach((c,i)=>{
+      const li=h('li',{draggable:ed},h('span',{className:'pos'},i+1),h('span',{className:'code'},c),h('span',{className:'nm'},NAMES[c]||''));
+      if(ed){
+        li.append(h('button',{onclick:()=>mv(i,i-1),disabled:i===0},'▲'),h('button',{onclick:()=>mv(i,i+1),disabled:i===order.length-1},'▼'));
+        li.ondragstart=e=>{drag=i;li.classList.add('drag');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',c)};
+        li.ondragend=()=>li.classList.remove('drag');li.ondragover=e=>e.preventDefault();li.ondrop=e=>{e.preventDefault();if(drag!==null)mv(drag,i);drag=null};
+      }
+      list.append(li);
+    });
+  }
+  let drag=null;const mv=(i,j)=>{if(j<0||j>=order.length)return;const[c]=order.splice(i,1);order.splice(j,0,c);draw()};
+  function tick(){
+    const t=now(),s=t<rd.open?'Betting opens in '+fmt(rd.open-t):t<rd.close?'Betting open – closes in '+fmt(rd.close-t):'Betting closed';
+    stat.textContent=s;stat.className=t>=rd.open&&t<rd.close?'ok':'mut';
+    const e=editable();if(was!==null&&was!==e)draw();was=e;
+  }
+  el.append(h('div',{className:'card'},h('div',{className:'bar'},rsel(()=>true,r=>{cur=r;betTab()}),stat),
+    h('div',{className:'mut'},'Race: '+dt(rd.race)+' · opens '+dt(rd.open)+' · closes '+dt(rd.close)),
+    h('div',{className:'mut'},'Drag drivers (or use ▲▼) into your predicted finishing order. Last place = 22. Points per driver = 22 − |actual − predicted|.')),
+    h('div',{className:'card'},list,h('div',{className:'bar'},save,msg)));
+  draw();tick();clearInterval(tmr);tmr=setInterval(()=>{if(tab==='bet')tick()},1000);
+}
+
+// ---- season ----
+async function boardTab(){
+  const el=$('t-board');el.innerHTML='';const j=await api('GET','leaderboard');
+  const t=h('table',{},h('tr',{},h('th',{},'#'),h('th',{},'Name'),j.rounds.map(r=>h('th',{className:'n'},'R'+r)),h('th',{className:'n'},'Total')));
+  j.rows.forEach((u,i)=>t.append(h('tr',{},h('td',{},i+1),h('td',{},u.name),j.rounds.map(r=>h('td',{className:'n'},u.pts[r]??0)),h('td',{className:'n'},h('b',{},u.total)))));
+  el.append(h('div',{className:'card scroll'},h('h3',{},'Season standings'),j.rounds.length?t:h('div',{className:'mut'},'No official results yet.')));
+}
+
+// ---- rounds ----
+async function roundTab(){
+  const el=$('t-round');el.innerHTML='';
+  const ok=S.rounds.filter(r=>now()>=r.close);
+  if(!ok.length){el.append(h('div',{className:'card mut'},'Bets become visible once betting closes for a round.'));return}
+  if(!ok.some(r=>r.rnd===cur))cur=ok[ok.length-1].rnd;
+  const j=await api('GET','round/'+cur);
+  const box=h('div',{className:'card scroll'});
+  box.append(h('div',{className:'bar'},rsel(r=>now()>=r.close,r=>{cur=r;roundTab()}),
+    ['bets','result','points'].map(f=>h('a',{href:'/api/export/'+cur+'/'+f+'.txt',target:'_blank',rel:'noopener'},f+'.txt'))));
+  if(j.result){
+    const pos={};j.result.forEach((c,i)=>pos[c]=i+1);
+    const t=h('table',{},h('tr',{},h('th',{className:'n'},'Pos'),h('th',{},'Driver'),j.bets.map(b=>h('th',{},b.name))));
+    j.result.forEach((c,i)=>t.append(h('tr',{},h('td',{className:'n'},i+1),h('td',{},c),j.bets.map(b=>{const g=b.order.indexOf(c)+1;return h('td',{},g?g+' (+'+Math.max(0,22-Math.abs(g-(i+1)))+')':'–')}))));
+    t.append(h('tr',{},h('td'),h('td',{},h('b',{},'Total')),j.bets.map(b=>h('td',{},h('b',{},b.pts)))));
+    box.append(t,h('div',{className:'mut'},'Cell = predicted position (points).'));
+  }else{
+    box.append(h('div',{className:'mut'},'Official result not available yet. Bets:'));
+    const t=h('table',{},h('tr',{},h('th',{className:'n'},'Pos'),j.bets.map(b=>h('th',{},b.name))));
+    for(let i=0;i<22;i++)t.append(h('tr',{},h('td',{className:'n'},i+1),j.bets.map(b=>h('td',{},b.order[i]))));
+    box.append(t);
+  }
+  el.append(box);
+}
+
+// ---- admin ----
+function adminTab(){
+  const el=$('t-admin');el.innerHTML='';const ta=h('textarea',{placeholder:'1VER\n2ANT\n3HAM\n…'}),msg=h('span',{className:'mut'});
+  const run=async f=>{try{await f();msg.className='ok';msg.textContent='Done.'}catch(e){msg.className='no';msg.textContent=e.message}};
+  const sel=rsel(()=>true,r=>{cur=r});
+  el.append(h('div',{className:'card'},h('h3',{},'Official result override'),
+    h('div',{className:'mut'},'Normally results come from the API automatically (and are re-checked for penalties). Use this only if the API is wrong or late. An override stays until you clear it.'),
+    h('div',{className:'bar'},sel),ta,
+    h('div',{className:'bar'},
+      h('button',{className:'pri',onclick:()=>run(async()=>{
+        const o=ta.value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const m=l.match(/^(\d+)\s*([A-Za-z]{3})$/);if(!m)throw new Error('Bad line: '+l);return[+m[1],m[2].toUpperCase()]}).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+        await api('POST','admin/result/'+sel.value,{order:o});await load()})},'Set result'),
+      h('button',{onclick:()=>run(()=>api('DELETE','admin/result/'+sel.value))},'Clear override'),
+      h('button',{onclick:()=>run(()=>api('POST','admin/refresh'))},'Re-fetch everything now'),msg)));
+}
+
+async function side(){
+  try{
+    const j=await api('GET','side');
+    $('qn').textContent=j.quali.name;const q=$('quali');q.innerHTML='';
+    if(!j.quali.rows.length)q.textContent='No data yet.';else j.quali.rows.forEach(r=>q.append(h('div',{},r.p+'. '+r.c+'  '+r.t)));
+    const n=$('news');n.innerHTML='';
+    j.news.forEach(x=>n.append(h('li',{},/^https:\/\//.test(x.l)?h('a',{href:x.l,target:'_blank',rel:'noopener noreferrer'},x.t):x.t)));
+  }catch(e){}
+}
+setInterval(()=>{if(S&&S.user)side()},300000);
+
+async function auth(kind){
+  try{await api('POST',kind,{name:$('an').value,password:$('ap').value,invite:$('ai').value});$('amsg').textContent='';await load()}
+  catch(e){$('amsg').textContent=e.message}
+}
+$('login').onclick=()=>auth('login');$('reg').onclick=()=>auth('register');
+load();
+</script>
+</body>
+</html>

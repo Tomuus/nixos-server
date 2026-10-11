@@ -9,6 +9,7 @@
     "${mods}/smb"
     "${mods}/qbittorrent.nix"
     "${mods}/forgejo.nix"
+    "${mods}/f1.nix"
     "${mods}/nextcloud.nix"
     "${mods}/cloudflare.nix"
     "${mods}/nfs.nix"
