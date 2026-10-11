@@ -144,11 +144,25 @@ def code(d):
     return d.get("code") or d["familyName"][:3].upper()
 
 
+def check(rs, rnd):
+    """The API race must be exactly the round (season, number, date) we asked for - otherwise it is ignored."""
+    if not rs:
+        return None
+    r, row = rs[0], q("SELECT race FROM races WHERE rnd=?", (rnd,))
+    want = datetime.fromtimestamp(row[0][0], timezone.utc).strftime("%Y-%m-%d") if row else None
+    if str(r.get("season")) != SEASON or str(r.get("round")) != str(rnd) or r.get("date") != want:
+        print(f"api mismatch for round {rnd}: got season {r.get('season')} round {r.get('round')} "
+              f"{r.get('raceName')} {r.get('date')}, expected {want} - ignored", file=sys.stderr)
+        return None
+    kvset(f"info{rnd}", json.dumps({"name": r.get("raceName", ""), "date": r["date"]}))
+    return r
+
+
 def sync_result(rnd):
-    rs = json.loads(fetch(f"{API}/{SEASON}/{rnd}/results.json?limit=100"))["MRData"]["RaceTable"]["Races"]
-    if not rs or not rs[0].get("Results"):
+    race = check(json.loads(fetch(f"{API}/{SEASON}/{rnd}/results.json?limit=100"))["MRData"]["RaceTable"]["Races"], rnd)
+    if not race or len(race.get("Results", [])) < 10:
         return
-    order = [code(r["Driver"]) for r in sorted(rs[0]["Results"], key=lambda r: int(r["position"]))]
+    order = [code(r["Driver"]) for r in sorted(race["Results"], key=lambda r: int(r["position"]))]
     old = q("SELECT ord, manual FROM results WHERE rnd=?", (rnd,))
     if old and old[0][1]:
         return                                       # admin override wins
@@ -160,9 +174,9 @@ def sync_result(rnd):
 
 
 def sync_quali(rnd):
-    rs = json.loads(fetch(f"{API}/{SEASON}/{rnd}/qualifying.json?limit=100"))["MRData"]["RaceTable"]["Races"]
+    race = check(json.loads(fetch(f"{API}/{SEASON}/{rnd}/qualifying.json?limit=100"))["MRData"]["RaceTable"]["Races"], rnd)
     rows = [{"p": int(r["position"]), "c": code(r["Driver"]), "t": r.get("Q3") or r.get("Q2") or r.get("Q1") or ""}
-            for r in (rs[0].get("QualifyingResults", []) if rs else [])]
+            for r in (race.get("QualifyingResults", []) if race else [])]
     if rows:
         kvset(f"quali{rnd}", json.dumps(rows))
 
@@ -180,34 +194,47 @@ def sync_news():
         kvset("news", json.dumps(items))
 
 
+def wipe():                                          # forget downloaded results/qualifying (admin overrides stay)
+    x("DELETE FROM results WHERE manual=0")
+    x("DELETE FROM kv WHERE k LIKE 'res%' OR k LIKE 'quali%' OR k LIKE 'qf%' OR k LIKE 'info%' OR k LIKE 'sched%'")
+
+
+def migrate():
+    if kvget("v")[0] != "2":
+        wipe()
+        kvset("v", "2")
+
+
 def worker():
     while True:
         now = time.time()
-        for name, age, fn in (("sched", 6 * 3600, sync_schedule),):
-            if now - kvget(name)[1] > age:
-                try:
-                    fn(); kvset(name, "1")
-                except Exception as e:
-                    print("sched:", e, file=sys.stderr); kvset(name, "0")
-        for rnd, _, race, quali in q("SELECT * FROM races ORDER BY rnd"):
-            since = now - race
-            if since < 3 * 3600:
-                continue
-            have = bool(q("SELECT 1 FROM results WHERE rnd=?", (rnd,)))
-            every = 1800 if (since < 86400 or not have) else 6 * 3600
-            if since < (14 if have else 60) * 86400 and now - kvget(f"res{rnd}")[1] > every:
-                try:
-                    sync_result(rnd); time.sleep(0.5)
-                except Exception as e:
-                    print("result:", rnd, e, file=sys.stderr)
-                kvset(f"res{rnd}", "1")
-        done = [r for r in q("SELECT rnd, quali FROM races ORDER BY rnd") if r[1] and r[1] < now]
-        if done and now - kvget("quali")[1] > 600:
+        if now - kvget("sched")[1] > 6 * 3600 and now - kvget("schedtry")[1] > 600:
+            kvset("schedtry", "1")
             try:
-                sync_quali(done[-1][0])
+                sync_schedule(); kvset("sched", "1")
             except Exception as e:
-                print("quali:", e, file=sys.stderr)
-            kvset("quali", str(done[-1][0]))
+                print("schedule:", e, file=sys.stderr)
+        for rnd, _, race, quali in q("SELECT * FROM races ORDER BY rnd"):
+            since, have = now - race, bool(q("SELECT 1 FROM results WHERE rnd=?", (rnd,)))
+            if since > 3 * 3600:                     # race is over: fetch its result, and re-check for penalties
+                every = (1800 if since < 3 * 86400 else 86400) if not have else 1800 if since < 86400 else 6 * 3600 if since < 14 * 86400 else None
+                if every and now - kvget(f"res{rnd}")[1] > every:
+                    try:
+                        sync_result(rnd)
+                    except Exception as e:
+                        print("result:", rnd, e, file=sys.stderr)
+                    kvset(f"res{rnd}", "1")
+                    time.sleep(0.5)
+            if quali and now - quali > 4500:         # qualifying is over
+                got = kvget(f"quali{rnd}")[0] is not None
+                every = (3600 if now - quali < 2 * 86400 else None) if got else (1800 if now - quali < 3 * 86400 else 86400)
+                if every and now - kvget(f"qf{rnd}")[1] > every:
+                    try:
+                        sync_quali(rnd)
+                    except Exception as e:
+                        print("quali:", rnd, e, file=sys.stderr)
+                    kvset(f"qf{rnd}", "1")
+                    time.sleep(0.5)
         if now - kvget("newsfetch")[1] > 900:
             try:
                 sync_news()
@@ -349,7 +376,7 @@ class H(BaseHTTPRequestHandler):
         if p == "admin/refresh" and m == "POST":
             if not admin:
                 return self.err(403, "admin only")
-            x("UPDATE kv SET ts=0")
+            wipe()
             return self.out(200, {"ok": True})
         if not mm or not race:
             return self.err(404, "not found")
@@ -372,7 +399,8 @@ class H(BaseHTTPRequestHandler):
             return self.out(200, {"ok": True})
         if mm.group(1) == "round" and m == "GET":
             res = results().get(rnd)
-            out = {"rnd": rnd, "name": race[0][1], "result": res, "locked": now >= cl, "bets": []}
+            out = {"rnd": rnd, "name": race[0][1], "result": res, "locked": now >= cl, "bets": [],
+                   "quali": json.loads(kvget(f"quali{rnd}")[0] or "null"), "info": json.loads(kvget(f"info{rnd}")[0] or "null")}
             if now >= cl:                           # other people's bets stay hidden until betting closes
                 users = dict(q("SELECT id, name FROM users"))
                 out["bets"] = [{"name": users.get(uid, "?"), "order": o.split(","), "pts": score(o.split(","), res) if res else None}
@@ -408,7 +436,7 @@ class H(BaseHTTPRequestHandler):
         if u:
             res = results()
             base["rounds"] = [{"rnd": r[0], "name": r[1], "race": r[2], "open": window(r)[0], "close": window(r)[1],
-                               "result": r[0] in res} for r in q("SELECT * FROM races ORDER BY rnd")]
+                               "quali": r[3], "result": r[0] in res} for r in q("SELECT * FROM races ORDER BY rnd")]
             base["last"] = res[max(res)] if res else None
         self.out(200, base)
 
@@ -442,6 +470,7 @@ class H(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    migrate()
     export_all()
     threading.Thread(target=worker, daemon=True).start()
     ThreadingHTTPServer(("127.0.0.1", PORT), H).serve_forever()
