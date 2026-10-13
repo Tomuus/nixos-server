@@ -23,7 +23,10 @@
     "${mods}/nvidia.nix"
     "${mods}/ortho.nix"
   ];
-
+services.zfs.autoScrub = {
+  enable = true;
+  interval = "monthly";   # sorry nie znalazem modules i spiesze sie
+};
   virtualisation.docker.enable = true;
   networking.hostName = "Serwer";
   environment.systemPackages = [ ortho4xpEnv ];
