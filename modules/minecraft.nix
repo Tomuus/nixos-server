@@ -82,6 +82,8 @@
     simulation-distance = 10;
     spawn-protection = 0;
     enforce-secure-profile = false;
+   white-list = false;
+  enforce-whitelist = false;
   };
   jvmOpts = "-Xmx8G -Xms2G";
 };
