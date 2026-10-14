@@ -52,7 +52,7 @@
         jvmOpts = "-Xmx8G -Xms4G";
       };
       wakacyjny = {
-        enable = true;
+        enable = false;
         #package = pkgs.fabricServers.fabric-26_2;
         package = pkgs.fabricServers.fabric-26_2.override {
           jre_headless = pkgs.jdk25_headless;
@@ -69,14 +69,32 @@
         };
         jvmOpts = "-Xmx12G -Xms2G";
       };
+      swiat = {
+  enable = true;
+  package = pkgs.fabricServers.fabric-26_3.override {
+    jre_headless = pkgs.jdk25_headless;
+  };
+  serverProperties = {
+    server-port = 25566;
+    motd = "New world";
+    difficulty = "normal";
+    view-distance = 40;
+    simulation-distance = 10;
+    spawn-protection = 0;
+    enforce-secure-profile = false;
+  };
+  jvmOpts = "-Xmx8G -Xms2G";
+};
 
     };
   };
 
   networking.firewall.allowedTCPPorts = [
     25565
+
     25564
     25563
+    25566
   ];
 
   environment.systemPackages = with pkgs; [
