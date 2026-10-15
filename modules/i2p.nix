@@ -9,6 +9,8 @@
     enableIPv6 = true;
     yggdrasil.enable = true;
 
+    floodfill = true;
+
     ntcp2 = {
       enable = true;
       published = true;
