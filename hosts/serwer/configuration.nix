@@ -22,6 +22,7 @@
     "${mods}/i2p.nix"
     "${mods}/nvidia.nix"
     "${mods}/ortho.nix"
+    "${mods}/yggdrasil.nix"
   ];
 
   virtualisation.docker.enable = true;

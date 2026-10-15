@@ -7,6 +7,7 @@
     proto.sam.enable = true;
     proto.socksProxy.enable = true;
     enableIPv6 = true;
+    yggdrasil.enable = true;
 
     ntcp2 = {
       enable = true;
