@@ -6,6 +6,7 @@
     proto.httpProxy.enable = true;
     proto.sam.enable = true;
     proto.socksProxy.enable = true;
+    enableIPv6 = true;
 
     ntcp2 = {
       enable = true;
