@@ -23,18 +23,13 @@
     "${mods}/nvidia.nix"
     "${mods}/ortho.nix"
   ];
-services.zfs.autoScrub = {
-  enable = true;
-  interval = "monthly";   # sorry nie znalazem modules i spiesze sie
-};
+
   virtualisation.docker.enable = true;
   networking.hostName = "Serwer";
+
   environment.systemPackages = [ ortho4xpEnv ];
- services.smartd = {
-  enable = true;
-  autodetect = true;    
-  notifications.wall.enable = true;   
-  }; #sorry tomek ale nie robie nowego pliku dla tego bs 
+
+  #TODO: Move to a module
   nixpkgs.overlays = [
     (final: prev: {
       ps3netsrv = prev.ps3netsrv.overrideAttrs (old: {

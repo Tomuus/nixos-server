@@ -23,6 +23,17 @@
     smartmontools
   ];
 
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+  };
+
+  services.smartd = {
+    enable = true;
+    autodetect = true;    
+    notifications.wall.enable = true;   
+  }; 
+
   #  fileSystems."/shares/jedentb" = {
   #    device = "jedentb";
   #    fsType = "zfs";
