@@ -23,6 +23,7 @@
     "${mods}/nvidia.nix"
     "${mods}/ortho.nix"
     "${mods}/yggdrasil.nix"
+    "${mods}/mumble.nix"
   ];
 
   virtualisation.docker.enable = true;
