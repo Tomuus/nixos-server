@@ -4,6 +4,7 @@
   services.nextcloud = {
     enable = true;
     hostName = "nextcloud.tomuus.org";
+    https = true;
     package = pkgs.nextcloud33;
 
     home = "/var/lib/nextcloud";
