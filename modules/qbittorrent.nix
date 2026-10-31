@@ -15,6 +15,8 @@
       };
 
       BitTorrent.Session = {
+        QueueingSystemEnabled = false;
+
         Interface = "";
         InterfaceAddress = "";
         InterfaceName = "";
