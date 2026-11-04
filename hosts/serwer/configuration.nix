@@ -26,6 +26,7 @@
     "${mods}/mumble.nix"
     "${mods}/snowflake.nix"
     "${mods}/frp.nix"
+    "${mods}/matrix.nix"
   ];
 
   virtualisation.docker.enable = true;

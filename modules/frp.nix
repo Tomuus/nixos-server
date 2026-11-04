@@ -12,6 +12,20 @@
           remotePort = 25565;
           type = "tcp";
         }
+        { 
+          name = "matrix-https"; 
+          type = "tcp"; 
+          localIP = "127.0.0.1"; 
+          localPort = 443; 
+          remotePort = 443; 
+        }
+        { 
+          name = "matrix-http";  
+          type = "tcp"; 
+          localIP = "127.0.0.1"; 
+          localPort = 80;  
+          remotePort = 80; 
+        }
         ];
         serverAddr = "vps.tomuus.org";
         serverPort = 7000;
