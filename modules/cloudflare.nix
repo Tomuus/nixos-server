@@ -9,9 +9,9 @@
         credentialsFile = "/etc/cloudflared/5ac4b348-f410-49cc-a3d5-2a6b22020867.json";
         default = "http_status:404";
         ingress = {
-          "nextcloud.tomuus.org" = "http://localhost:80";
+          "nextcloud.tomuus.org" = "http://localhost:6769";
           "music.tomuus.org" = "http://localhost:4533";
-            "f1.tomuus.org" = "http://localhost:8087";
+          "f1.tomuus.org" = "http://localhost:8087";
           "spl.tomuus.org" = "http://localhost:8086";
           "immich.tomuus.org" = "http://localhost:2283";
         };
