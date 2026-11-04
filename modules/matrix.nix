@@ -3,7 +3,7 @@
 {
   services.matrix-continuwuity = {
     enable = true;
-    package = unstbl.matrix-continuwuity;
+    #package = unstbl.matrix-continuwuity;
 
     settings = {
       global = {
@@ -33,4 +33,8 @@
       reverse_proxy /.well-known/matrix/* localhost:6167
     '';
   };
+
+  services.matrix-continuwuity.package = unstbl.matrix-continuwuity.overrideAttrs (old: {
+     patches = (old.patches or [ ]) ++ [ ./cont.patch ];
+   });
 }
