@@ -27,7 +27,7 @@
           remotePort = 80; 
         }
         ];
-        serverAddr = "vps.tomuus.org";
+        serverAddr = "84.32.98.118";
         serverPort = 7000;
         
         auth.method = "token";
