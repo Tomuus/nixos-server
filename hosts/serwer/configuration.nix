@@ -27,6 +27,7 @@
     "${mods}/snowflake.nix"
     "${mods}/frp.nix"
     "${mods}/matrix.nix"
+    "${mods}/unbound.nix"
   ];
 
   virtualisation.docker.enable = true;
