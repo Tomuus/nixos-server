@@ -14,6 +14,7 @@
           "f1.tomuus.org" = "http://localhost:8087";
           "spl.tomuus.org" = "http://localhost:8086";
           "immich.tomuus.org" = "http://localhost:2283";
+          "serwer.tomuus.org" = "http://localhost:61208";
         };
       };
     };
