@@ -68,4 +68,10 @@
   };
 
   systemd.services.nextcloud-cron.serviceConfig.UMask = "0007";
+
+  services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
+    listen = [
+      { addr = "0.0.0.0"; port = 6769; }
+    ];
+  };
 }

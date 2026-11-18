@@ -1,0 +1,60 @@
+From fad7eb2b7b661d24fed7d4717518e2c2eb35675f Mon Sep 17 00:00:00 2001
+From: kiorul <kiorul@noreply.forgejo.ellis.link>
+Date: Tue, 25 Aug 2026 21:51:35 +0200
+Subject: [PATCH] fix: handling of $ME
+
+---
+ src/api/client/sync/v5.rs | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+
+diff --git a/src/api/client/sync/v5.rs b/src/api/client/sync/v5.rs
+index 3752af589..722bc94d4 100644
+--- a/src/api/client/sync/v5.rs
++++ b/src/api/client/sync/v5.rs
+@@ -913,7 +913,7 @@ where
+ 			});
+ 
+ 		let required_state =
+-			collect_required_state(services, room_id, required_state_request).await;
++			collect_required_state(services, room_id, required_state_request, sender_user).await;
+ 
+ 		let timeline_pdus: Vec<_> = timeline_pdus
+ 			.iter()
+@@ -1188,6 +1188,7 @@ async fn collect_required_state(
+ 	services: &Services,
+ 	room_id: &RoomId,
+ 	required_state_request: &BTreeSet<TypeStateKey>,
++	sender_user: &UserId,
+ ) -> Vec<Raw<AnySyncStateEvent>> {
+ 	let mut required_state = Vec::new();
+ 	let mut wildcard_types: HashSet<&StateEventType> = HashSet::new();
+@@ -1216,13 +1217,21 @@ async fn collect_required_state(
+ 					}
+ 				}
+ 			}
+-		} else if let Ok(event) = services
+-			.rooms
+-			.state_accessor
+-			.room_state_get(room_id, event_type, state_key)
+-			.await
+-		{
+-			required_state.push(Event::into_format(event));
++		} else {
++			let resolved_state_key = if state_key.as_str() == "$ME" {
++				sender_user.as_str()
++			} else {
++				state_key.as_str()
++			};
++
++			if let Ok(event) = services
++				.rooms
++				.state_accessor
++				.room_state_get(room_id, event_type, resolved_state_key)
++				.await
++				{
++					required_state.push(Event::into_format(event));
++				}
+ 		}
+ 	}
+ 	required_state
+

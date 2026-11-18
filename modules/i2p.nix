@@ -1,3 +1,5 @@
+{ pkgs, ... }:
+
 {
   services.i2pd.enable = true;
 
@@ -29,4 +31,8 @@
 
   networking.firewall.allowedUDPPorts = [ 21376 ];
   networking.firewall.allowedTCPPorts = [ 21376 ];
+
+  environment.systemPackages = with pkgs; [
+    links2
+  ];
 }
