@@ -24,6 +24,7 @@
     "${mods}/ortho.nix"
     "${mods}/yggdrasil.nix"
     "${mods}/mumble.nix"
+    "${mods}/glances.nix"
     "${mods}/snowflake.nix"
     "${mods}/frp.nix"
     "${mods}/matrix.nix"
