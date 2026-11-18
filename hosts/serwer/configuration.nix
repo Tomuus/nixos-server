@@ -27,7 +27,6 @@
     "${mods}/glances.nix"
     "${mods}/snowflake.nix"
     "${mods}/frp.nix"
-    "${mods}/matrix.nix"
     "${mods}/unbound.nix"
   ];
 

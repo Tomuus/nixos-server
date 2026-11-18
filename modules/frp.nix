@@ -12,22 +12,8 @@
           remotePort = 25565;
           type = "tcp";
         }
-        { 
-          name = "matrix-https"; 
-          type = "tcp"; 
-          localIP = "127.0.0.1"; 
-          localPort = 443; 
-          remotePort = 443; 
-        }
-        { 
-          name = "matrix-http";  
-          type = "tcp"; 
-          localIP = "127.0.0.1"; 
-          localPort = 80;  
-          remotePort = 80; 
-        }
         ];
-        serverAddr = "84.32.98.118";
+        serverAddr = "109.206.220.74";
         serverPort = 7000;
         
         auth.method = "token";
