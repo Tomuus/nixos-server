@@ -12,5 +12,7 @@
     ethtool
     p7zip
     unzip
+    smartmontools
+    glances
   ];
 }
