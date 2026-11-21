@@ -69,7 +69,7 @@
         "read only" = "no";
         "strict sync" = "yes";
         "fruit:time machine" = "yes";
-        "fruit:time machine max size" = "512G";
+        "fruit:time machine max size" = "768G";
       };
     };
   };
